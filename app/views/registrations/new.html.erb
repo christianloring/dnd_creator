@@ -1,0 +1,24 @@
+<div class="flex items-center justify-center min-h-screen bg-gray-100">
+    <div class="w-full max-w-md bg-white rounded shadow-md p-8">
+        <h2 class="text-xl font-bold mb-6 text-center">Sign Up</h2>
+
+        <%= form_with model: @user, url: registration_path do |f| %>
+        <div class="mb-4">
+            <%= f.label :email_address, class: "block mb-1" %>
+            <%= f.email_field :email_address, class: "border p-2 rounded w-full", autocomplete: "username", placeholder: "Enter your email address" %>
+        </div>
+
+        <div class="mb-4">
+            <%= f.label :password, class: "block mb-1" %>
+            <%= f.password_field :password, class: "border p-2 rounded w-full", autocomplete: "new-password", placeholder: "Enter your password" %>
+        </div>
+
+        <div class="mb-4">
+            <%= f.label :password_confirmation, class: "block mb-1" %>
+            <%= f.password_field :password_confirmation, class: "border p-2 rounded w-full", autocomplete: "new-password", placeholder: "Confirm your password" %>
+        </div>
+
+        <%= f.submit "Create Account", class: "bg-blue-600 text-white px-4 py-2 rounded" %>
+        <% end %>
+    </div>
+</div>

@@ -1,7 +1,10 @@
 Rails.application.routes.draw do
-  resource :session
-  resources :passwords, param: :token
   root "home#index"
+
+  resources :passwords, param: :token
+  resource :registration, only: %i[new create]
+  resource :session, only: %i[new create destroy]
+  resources :characters
 
   get "home/index"
   get "home/dashboard", to: "home#dashboard"
