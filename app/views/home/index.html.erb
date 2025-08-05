@@ -1,2 +1,16 @@
-<h1>Home#index</h1>
-<p>Find me in app/views/home/index.html.erb</p>
+<div class="min-h-screen bg-gray-100 flex flex-col">
+  <header class="bg-blue-800 text-white p-4">
+    <div class="container mx-auto">
+      <h1 class="text-2xl font-bold">DND Character Creator</h1>
+    </div>
+  </header>
+
+  <main class="flex-1 container mx-auto p-6">
+    <h2 class="text-xl font-semibold mb-4">Welcome to your next adventure</h2>
+    <%= link_to "Create a Character", root_path, class: "inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700" %>
+  </main>
+
+  <footer class="bg-gray-800 text-white text-sm p-4 text-center">
+    &copy; <%= Date.current.year %> DND Creator by You
+  </footer>
+</div>
