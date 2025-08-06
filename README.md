@@ -13,6 +13,26 @@ Build a feature-rich application that supports the following:
 
 ---
 
+## 🚀 Getting Started
+
+### Prerequisites
+
+- Ruby 3.4.x
+- Rails 8.x
+- PostgreSQL
+- Node + Yarn
+- ImageMagick (for ActiveStorage previews, optional)
+
+### Setup
+
+```bash
+git clone https://github.com/yourusername/dnd_creator.git
+cd dnd_creator
+bundle install
+bin/setup
+```
+---
+
 ## ✅ Feature Checklist
 
 ### 🔒 Core Functionality
@@ -69,23 +89,3 @@ Build a feature-rich application that supports the following:
 - [ ] API Development - RESTful API with proper documentation
 - [ ] Background Jobs - Sidekiq for heavy processing (PDF generation, etc.)
 - [ ] File Upload/Management - S3 integration for images/documents
-
----
-
-## 🚀 Getting Started
-
-### Prerequisites
-
-- Ruby 3.4.x
-- Rails 8.x
-- PostgreSQL
-- Node + Yarn
-- ImageMagick (for ActiveStorage previews, optional)
-
-### Setup
-
-```bash
-git clone https://github.com/yourusername/dnd_creator.git
-cd dnd_creator
-bundle install
-bin/setup
