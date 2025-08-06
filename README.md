@@ -55,7 +55,7 @@ Build a feature-rich application that supports the following:
 - [ ] Character flaws
 - [ ] Character strengths
 
-### � Campaign & Session Management
+### 📝 Campaign & Session Management
 - [ ] Ability to take notes
 - [ ] Campaign planning
 - [ ] Session planning
