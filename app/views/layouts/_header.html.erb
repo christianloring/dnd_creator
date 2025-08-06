@@ -3,7 +3,7 @@
     <h1 class="text-2xl font-bold">DND Character Creator</h1>
     <div class="flex items-center space-x-4">
       <%= button_to "Home", root_path, method: :get, class: "text-white hover:text-gray-300", form: { class: "inline" } %>
-      <%= button_to "Dashboard", home_dashboard_path, method: :get, class: "text-white hover:text-gray-300", form: { class: "inline" } %>
+      <%= button_to "Dashboard", dashboard_path, method: :get, class: "text-white hover:text-gray-300", form: { class: "inline" } %>
       <% if authenticated? %>
         <%= button_to "Logout", session_path, method: :delete, class: "text-white hover:text-gray-300 bg-transparent border-none p-0 m-0", form: { class: "inline" } %>
       <% else %>
