@@ -18,14 +18,14 @@ Build a feature-rich application that supports the following:
 ### 🔒 Core Functionality
 - [x] Authentication
 - [x] User creation
-- [x] Character creation
-- [x] Simple combat simulator
+- [ ] Character creation
+- [ ] Simple combat simulator
 - [x] RSpec testing
 - [x] Documentation
 - [x] CI/CD
-- [x] Deployment
-- [x] Tailwind integration (USWDS-comparable utility framework)
-- [x] Image uploading (character portraits)
+- [ ] Deployment
+- [ ] Tailwind integration
+- [ ] Image uploading (character portraits)
 
 ### ⚔️ Encounter Builder
 - [ ] Use D&D’s new encounter-building EXP guide
@@ -35,7 +35,7 @@ Build a feature-rich application that supports the following:
 
 ### 📈 Character System
 - [ ] Leveling system
-- [x] Character sheet display
+- [ ] Character sheet display
 - [ ] Character sheet export (PDF or print-friendly)
 
 ### 🎲 Items & Loot
@@ -52,12 +52,23 @@ Build a feature-rich application that supports the following:
 ### 🎭 Character Helper
 - [ ] Generate or tag character tropes
 - [ ] Theme suggestions
-- [ ] Suggested flaws/strengths/class combos
+- [ ] Character flaws
+- [ ] Character strengths
 
-### 🛠️ Admin Tools
+### � Campaign & Session Management
+- [ ] Ability to take notes
+- [ ] Campaign planning
+- [ ] Session planning
+
+### �🛠️ Admin Tools
 - [ ] Admin interface
 - [ ] Dice roller
 - [ ] Encounter templates or saved setups
+
+### 🏗️ Technical Infrastructure
+- [ ] API Development - RESTful API with proper documentation
+- [ ] Background Jobs - Sidekiq for heavy processing (PDF generation, etc.)
+- [ ] File Upload/Management - S3 integration for images/documents
 
 ---
 
@@ -77,5 +88,4 @@ Build a feature-rich application that supports the following:
 git clone https://github.com/yourusername/dnd_creator.git
 cd dnd_creator
 bundle install
-yarn install
 bin/setup
