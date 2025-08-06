@@ -60,7 +60,7 @@ Build a feature-rich application that supports the following:
 - [ ] Campaign planning
 - [ ] Session planning
 
-### �🛠️ Admin Tools
+### 🛠️ Admin Tools
 - [ ] Admin interface
 - [ ] Dice roller
 - [ ] Encounter templates or saved setups
