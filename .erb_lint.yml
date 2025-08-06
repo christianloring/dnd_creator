@@ -5,3 +5,6 @@ linters:
     enabled: true
   Indentation:
     enabled: true
+
+exclude:
+  - 'vendor/**/*'
