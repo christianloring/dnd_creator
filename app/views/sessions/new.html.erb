@@ -1,11 +1,28 @@
-<%= tag.div(flash[:alert], style: "color:red") if flash[:alert] %>
-<%= tag.div(flash[:notice], style: "color:green") if flash[:notice] %>
+<div class="flex items-center justify-center min-h-screen bg-gray-100">
+  <div class="w-full max-w-md bg-white rounded shadow-md p-8">
+    <% if flash[:alert] %>
+      <div class="mb-4 text-red-600 text-center"><%= flash[:alert] %></div>
+    <% end %>
+    <% if flash[:notice] %>
+      <div class="mb-4 text-green-600 text-center"><%= flash[:notice] %></div>
+    <% end %>
 
-<%= form_with url: session_path do |form| %>
-  <%= form.email_field :email_address, required: true, autofocus: true, autocomplete: "username", placeholder: "Enter your email address", value: params[:email_address] %><br>
-  <%= form.password_field :password, required: true, autocomplete: "current-password", placeholder: "Enter your password", maxlength: 72 %><br>
-  <%= form.submit "Sign in" %>
-<% end %>
-<br>
+    <h2 class="text-2xl font-bold mb-6 text-center">Sign in to your account</h2>
+    <%= form_with url: session_path, class: "space-y-4" do |form| %>
+      <div>
+        <%= form.email_field :email_address, required: true, autofocus: true, autocomplete: "username", placeholder: "Enter your email address", value: params[:email_address], class: "w-full px-3 py-2 border rounded" %>
+      </div>
+      <div>
+        <%= form.password_field :password, required: true, autocomplete: "current-password", placeholder: "Enter your password", maxlength: 72, class: "w-full px-3 py-2 border rounded" %>
+      </div>
+      <div>
+        <%= form.submit "Sign in", class: "w-full bg-blue-600 text-white py-2 rounded hover:bg-blue-700" %>
+      </div>
+    <% end %>
 
-<%= link_to "Forgot password?", new_password_path %>
+    <div class="flex justify-between items-center mt-4">
+      <%= link_to "Forgot password?", new_password_path, class: "text-blue-600 hover:underline text-sm" %>
+      <%= link_to "Create account", new_registration_path, class: "text-blue-600 hover:underline text-sm" %>
+    </div>
+  </div>
+</div>
