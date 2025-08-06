@@ -23,9 +23,6 @@ RSpec.configure do |config|
   # Run each example in a transaction (good for non-JS tests)
   config.use_transactional_fixtures = true
 
-  # Enable FactoryBot shortcuts like `create(:user)`
-  config.include FactoryBot::Syntax::Methods
-
   # Automatically tag spec types based on file location
   config.infer_spec_type_from_file_location!
 
