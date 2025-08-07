@@ -26,7 +26,7 @@ Build a feature-rich application that supports the following:
 ### Setup
 
 ```bash
-git clone https://github.com/yourusername/dnd_creator.git
+git clone https://github.com/christianloring/dnd_creator.git
 cd dnd_creator
 bundle install
 bin/setup
