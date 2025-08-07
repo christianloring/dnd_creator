@@ -5,5 +5,7 @@ class HomeController < ApplicationController
   end
 
   def dashboard
+    @user_count = User.count
+    # @character_count = Character.count
   end
 end

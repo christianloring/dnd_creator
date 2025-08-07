@@ -1,2 +1,17 @@
-<h1>Home#dashboard</h1>
-<p>Find me in app/views/home/dashboard.html.erb</p>
+
+<h1 class="font-sans text-3xl font-bold text-gray-800 mb-2">Dashboard</h1>
+<p class="text-base text-gray-600 mb-4">Welcome to your dashboard!</p>
+<table class="w-3/5 mt-4 bg-gray-50 shadow rounded-lg border border-gray-200">
+    <thead>
+        <tr>
+            <th class="px-4 py-3 bg-gray-800 text-white text-left border-b-2 border-gray-700">Number of Users</th>
+            <th class="px-4 py-3 bg-gray-800 text-white text-left border-b-2 border-gray-700">Number of Characters</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr>
+            <td class="px-4 py-2 border-b border-gray-200"><%= @user_count %></td>
+            <td class="px-4 py-2 border-b border-gray-200 text-gray-400">Characters aren't made yet</td>
+        </tr>
+    </tbody>
+</table>
