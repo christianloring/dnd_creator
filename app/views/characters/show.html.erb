@@ -6,7 +6,7 @@
         <span><%= @character.name %></span>
     </h1>
 
-    <ul class="bg-white rounded-lg shadow-md p-8 w-full max-w-lg space-y-4">
+    <ul class="bg-white rounded-lg shadow-md p-8 w-full max-w-xl space-y-4">
         <li>
             <div class="flex flex-wrap gap-4 mt-2 text-gray-900">
                 <span><strong>STR</strong>: <%= @character.strength %></span>
@@ -51,6 +51,29 @@
                 <strong class="text-gray-700">Speed:</strong>
                 <span class="text-gray-900"><%= @character.speed %> ft</span>
             </div>
+            </div>
+        </li>
+        <li>
+            <div class="flex flex-wrap gap-6 items-center">
+                <div class="w-full">
+                    <div class="flex justify-between items-center mb-2">
+                        <strong class="text-gray-700">Recent Notes:</strong>
+                        <%= link_to "View All Notes", character_notes_path(@character), class: "text-blue-600 underline" %>
+                    </div>
+                    <div class="flex flex-row gap-4">
+                        <% @character.notes.order(updated_at: :desc).limit(2).each do |note| %>
+                            <div class="bg-gray-100 rounded-lg p-4 shadow w-60 flex flex-col">
+                                <div class="font-semibold text-gray-800 truncate"><%= note.title %></div>
+                                <div class="text-gray-700 text-sm truncate mb-2"><%= note.body.to_s.truncate(60) %></div>
+                                <div class="flex gap-2 mt-auto">
+                                    <%= link_to "View", character_note_path(@character, note), class: "text-blue-600 underline text-xs" %>
+                                    <%= link_to "Edit", edit_character_note_path(@character, note), class: "text-green-600 underline text-xs" %>
+                                    <%= link_to "Delete", character_note_path(@character, note), method: :delete, data: { confirm: "Are you sure?" }, class: "text-red-600 underline text-xs" %>
+                                </div>
+                            </div>
+                        <% end %>
+                    </div>
+                </div>
             </div>
         </li>
         <li>
