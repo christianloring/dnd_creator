@@ -1,10 +1,15 @@
 <div class="px-4 md:px-12 py-8">
     <h1 class="text-3xl font-bold mb-6">Create New Character</h1>
 
-    <%= form_with(model: @character, local: true, class: "space-y-6") do |form| %>
+    <%= form_with(model: @character, local: true, html: { multipart: true }, class: "space-y-6") do |form| %>
         <div class="mb-4">
             <%= form.label :name, "Name", class: "block text-gray-700 font-bold mb-2" %>
             <%= form.text_field :name, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
+        </div>
+
+        <div class="mb-4">
+            <%= form.label :profile_picture, "Profile Picture", class: "block text-gray-700 font-bold mb-2" %>
+            <%= form.file_field :profile_picture, class: "block w-full text-gray-700 border rounded py-2 px-3 focus:outline-none focus:shadow-outline" %>
         </div>
 
         <div class="mb-4">
@@ -38,27 +43,27 @@
             <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-4">
                 <div>
                     <%= form.label :strength, "Strength", class: "block text-gray-700 font-bold mb-1" %>
-                    <%= form.select :strength, (1..20).to_a, {}, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
+                    <%= form.select :strength, (8..20).to_a, {}, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
                 </div>
                 <div>
                     <%= form.label :dexterity, "Dexterity", class: "block text-gray-700 font-bold mb-1" %>
-                    <%= form.select :dexterity, (1..20).to_a, {}, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
+                    <%= form.select :dexterity, (8..20).to_a, {}, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
                 </div>
                 <div>
                     <%= form.label :constitution, "Constitution", class: "block text-gray-700 font-bold mb-1" %>
-                    <%= form.select :constitution, (1..20).to_a, {}, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
+                    <%= form.select :constitution, (8..20).to_a, {}, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
                 </div>
                 <div>
                     <%= form.label :intelligence, "Intelligence", class: "block text-gray-700 font-bold mb-1" %>
-                    <%= form.select :intelligence, (1..20).to_a, {}, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
+                    <%= form.select :intelligence, (8..20).to_a, {}, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
                 </div>
                 <div>
                     <%= form.label :wisdom, "Wisdom", class: "block text-gray-700 font-bold mb-1" %>
-                    <%= form.select :wisdom, (1..20).to_a, {}, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
+                    <%= form.select :wisdom, (8..20).to_a, {}, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
                 </div>
                 <div>
                     <%= form.label :charisma, "Charisma", class: "block text-gray-700 font-bold mb-1" %>
-                    <%= form.select :charisma, (1..20).to_a, {}, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
+                    <%= form.select :charisma, (8..20).to_a, {}, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
                 </div>
             </div>
         </div>

@@ -1,0 +1,21 @@
+<% if current_user&.characters&.any? %>
+  <% recent_character = current_user.characters.order(updated_at: :desc).first %>
+  <div class="bg-white p-6 rounded-lg shadow h-full">
+    <h2 class="text-xl font-semibold mb-2 text-center">Recently Edited Character</h2>
+      <% if recent_character.profile_picture.attached? %>
+        <div class="flex justify-center mb-4">
+          <%= image_tag url_for(recent_character.profile_picture), alt: "#{recent_character.name} profile picture", class: "h-16 w-16 object-cover rounded-full shadow-lg border-2 border-gray-300" %>
+        </div>
+      <% end %>
+    <p class="text-gray-800 font-bold"><%= recent_character.name %></p>
+    <p class="text-gray-600 text-sm">
+      Level <%= recent_character.level %> <%= recent_character.character_class %>
+    </p>
+    <%= link_to "View Character", character_path(recent_character), class: "mt-2 inline-block text-blue-600 hover:underline" %>
+  </div>
+<% else %>
+  <div class="bg-white p-6 rounded-lg shadow h-full">
+    <h2 class="text-xl font-semibold mb-2 text-center">No Recent Characters</h2>
+    <p class="text-gray-600 text-sm text-center">Create a new character to see it here.</p>
+  </div>
+<% end %>

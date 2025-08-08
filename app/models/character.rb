@@ -27,6 +27,9 @@ class Character < ApplicationRecord
   has_many :character_items, dependent: :destroy
   has_many :items, through: :character_items
 
+  has_many :campaign_characters, dependent: :destroy
+  has_many :campaigns, through: :campaign_characters
+
   has_one_attached :profile_picture
 
   validates :character_class, inclusion: { in: DND_CLASSES }
