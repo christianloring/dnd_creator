@@ -1,5 +1,4 @@
 class Campaigns::NotesController < ApplicationController
-  before_action :authenticate_user!
   before_action :set_campaign
   before_action :set_note, only: [ :show, :edit, :update, :destroy ]
 
@@ -28,6 +27,9 @@ class Campaigns::NotesController < ApplicationController
     else
       render :edit
     end
+  end
+
+  def show
   end
 
   def destroy

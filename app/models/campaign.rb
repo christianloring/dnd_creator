@@ -4,7 +4,6 @@ class Campaign < ApplicationRecord
   has_many :characters, through: :campaign_characters
   has_many :notes, as: :notable, dependent: :destroy
 
-
   validates :name, presence: true
   validates :description, presence: true
 end
