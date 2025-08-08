@@ -1,4 +1,4 @@
-<% if current_user.respond_to?(:campaigns) && current_user.campaigns.any? %>
+<% if current_user&.campaigns&.any? %>
   <% recent_campaign = current_user.campaigns.order(updated_at: :desc).first %>
   <div class="bg-white p-6 rounded-lg shadow h-full">
     <h2 class="text-xl font-semibold mb-2">📘 Recently Edited Campaign</h2>
