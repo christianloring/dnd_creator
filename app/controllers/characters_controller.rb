@@ -46,7 +46,7 @@ class CharactersController < ApplicationController
       :name, :character_class, :subclass, :species, :level,
       :strength, :dexterity, :constitution,
       :intelligence, :wisdom, :charisma,
-      :profile_picture
+      :profile_picture, :hitpoints, :speed
     )
   end
 end

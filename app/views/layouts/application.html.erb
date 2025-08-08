@@ -24,9 +24,13 @@
 
   </head>
 
-  <body>
+  <body class="min-h-screen flex flex-col">
     <%= render "layouts/header" %>
-    <%= yield %>
+
+    <main class="flex-1">
+      <%= yield %>
+    </main>
+
     <%= render "layouts/footer" %>
   </body>
 </html>
