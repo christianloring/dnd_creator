@@ -10,7 +10,7 @@
                 <span>|</span>
                 <%= link_to 'Edit', edit_character_path(character), class: "text-yellow-600 hover:underline" %>
                 <span>|</span>
-                <%= link_to 'Delete', character_path(character), method: :delete, data: { confirm: 'Are you sure?' }, class: "text-red-600 hover:underline" %>
+                <%= link_to 'Delete', character_path(character), data: { confirm: 'Are you sure?', turbo_method: :delete }, class: "text-red-600 hover:underline" %>
             </div>
         </div>
     <% end %>
