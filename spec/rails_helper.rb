@@ -9,6 +9,7 @@ require 'rspec/rails'
 # Load support files (e.g. factory_bot.rb)
 Dir[Rails.root.join("spec/support/**/*.rb")].each { |f| require f }
 
+
 # Ensure database schema is up to date
 begin
   ActiveRecord::Migration.maintain_test_schema!

@@ -32,6 +32,8 @@ gem "thruster", require: false
 # Required in config/boot.rb
 gem "bootsnap", require: false
 
+gem "pry-rails" # Debugging
+
 # Optional image processing (uncomment if needed)
 # gem "image_processing", "~> 1.2"
 

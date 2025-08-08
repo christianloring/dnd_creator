@@ -1,53 +1,62 @@
 require 'rails_helper'
 
 RSpec.describe "Characters", type: :request do
+  before { session_sign_in }
+  let(:character) { create(:character, user: Current.session.user) }
+
   describe "GET /index" do
     it "returns http success" do
-      get "/characters/index"
+      get characters_path
+
       expect(response).to have_http_status(:success)
     end
   end
 
   describe "GET /show" do
     it "returns http success" do
-      get "/characters/show"
+      get character_path(character)
+
       expect(response).to have_http_status(:success)
     end
   end
 
   describe "GET /new" do
     it "returns http success" do
-      get "/characters/new"
+      get new_character_path
+
       expect(response).to have_http_status(:success)
     end
   end
 
-  describe "GET /create" do
+  describe "POST /create" do
     it "returns http success" do
-      get "/characters/create"
-      expect(response).to have_http_status(:success)
+      post characters_path, params: { character: attributes_for(:character) }
+
+      expect(response).to have_http_status(:redirect)
     end
   end
 
   describe "GET /edit" do
     it "returns http success" do
-      get "/characters/edit"
+      get edit_character_path(character)
+
       expect(response).to have_http_status(:success)
     end
   end
 
-  describe "GET /update" do
+  describe "PATCH /update" do
     it "returns http success" do
-      get "/characters/update"
-      expect(response).to have_http_status(:success)
+      patch character_path(character), params: { character: attributes_for(:character) }
+
+      expect(response).to have_http_status(:redirect)
     end
   end
 
-  describe "GET /destroy" do
+  describe "DELETE /destroy" do
     it "returns http success" do
-      get "/characters/destroy"
-      expect(response).to have_http_status(:success)
+      delete character_path(character)
+
+      expect(response).to have_http_status(:redirect)
     end
   end
-
 end
