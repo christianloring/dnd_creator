@@ -38,13 +38,13 @@ bin/setup
 ### 🔒 Core Functionality
 - [x] Authentication
 - [x] User creation
-- [ ] Character creation
+- [X] Character creation
 - [ ] Simple combat simulator
 - [x] RSpec testing
 - [x] Documentation
 - [x] CI/CD
 - [ ] Deployment
-- [ ] Tailwind integration
+- [X] Tailwind integration
 - [ ] Image uploading (character portraits)
 
 ### ⚔️ Encounter Builder

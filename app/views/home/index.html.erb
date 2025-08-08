@@ -1,11 +1,24 @@
 <div class="min-h-screen bg-gray-100 flex flex-col">
+  <main class="flex-grow">
+    <div class="max-w-screen-lg mx-auto px-4 py-8">
 
-  <main class="flex-1 container mx-auto p-6">
-    <h2 class="text-xl font-semibold mb-4">Welcome to your next adventure</h2>
-    <%= link_to "Create a Character", new_character_path, class: "inline-block bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700" %>
+      <div class="text-center mb-8">
+        <h1 class="text-3xl font-bold mb-2">Welcome to your next adventure</h1>
+        <p class="text-gray-600">Manage your characters, run epic battles, and plan unforgettable campaigns.</p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+        <%= render "home/player_tools" %>
+        <%= render "home/dm_tools" %>
+        <%= render "home/for_fun_tools" %>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mt-10">
+        <%= render "home/daily_prompt" %>
+        <%= render "home/recent_character" %>
+        <%= render "home/recent_campaign" %>
+      </div>
+
+    </div>
   </main>
-
-  <footer class="bg-gray-800 text-white text-sm p-4 text-center">
-    &copy; <%= Date.current.year %> DND Creator by You
-  </footer>
 </div>

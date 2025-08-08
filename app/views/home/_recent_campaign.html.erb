@@ -1,0 +1,14 @@
+<% if current_user.respond_to?(:campaigns) && current_user.campaigns.any? %>
+  <% recent_campaign = current_user.campaigns.order(updated_at: :desc).first %>
+  <div class="bg-white p-6 rounded-lg shadow h-full">
+    <h2 class="text-xl font-semibold mb-2">📘 Recently Edited Campaign</h2>
+    <p class="text-gray-800 font-bold"><%= recent_campaign.name %></p>
+    <p class="text-gray-600 text-sm">Last updated <%= time_ago_in_words(recent_campaign.updated_at) %> ago</p>
+    <%= link_to "View Campaign", campaign_path(recent_campaign), class: "mt-2 inline-block text-blue-600 hover:underline" %>
+  </div>
+<% else %>
+  <div class="bg-white p-6 rounded-lg shadow h-full">
+    <h2 class="text-xl font-semibold mb-2 text-center">No Recent Campaigns</h2>
+    <p class="text-gray-600 text-sm text-center">Start a new campaign to see it here.</p>
+  </div>
+<% end %>

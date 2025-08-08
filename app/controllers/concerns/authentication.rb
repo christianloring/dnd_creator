@@ -2,7 +2,9 @@ module Authentication
   extend ActiveSupport::Concern
 
   included do
+    before_action :set_current_session
     before_action :require_authentication
+
     helper_method :authenticated?
     helper_method :current_user
   end
@@ -53,5 +55,9 @@ module Authentication
 
     def current_user
       Current.session&.user
+    end
+
+    def set_current_session
+      Current.session ||= find_session_by_cookie
     end
 end
