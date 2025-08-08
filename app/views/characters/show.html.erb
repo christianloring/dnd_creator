@@ -1,0 +1,21 @@
+<div class="flex flex-col items-center mt-10">
+    <h1 class="flex items-center text-3xl font-bold mb-6">
+        <% if @character.profile_picture.attached? %>
+            <%= image_tag url_for(@character.profile_picture), alt: "#{@character.name} profile picture", class: "h-16 w-16 object-cover rounded-full mr-4 shadow-lg border-2 border-gray-300" %>
+        <% end %>
+        <span><%= @character.name %></span>
+    </h1>
+
+    <ul class="bg-white rounded-lg shadow-md p-8 w-full max-w-md space-y-4">
+        <li><strong class="text-gray-700">Class:</strong> <span class="text-gray-900"><%= @character.character_class %></span></li>
+        <li><strong class="text-gray-700">Subclass:</strong> <span class="text-gray-900"><%= @character.subclass %></span></li>
+        <li><strong class="text-gray-700">Species:</strong> <span class="text-gray-900"><%= @character.species %></span></li>
+        <li><strong class="text-gray-700">Level:</strong> <span class="text-gray-900"><%= @character.level %></span></li>
+        <li><strong class="text-gray-700">Strength:</strong> <span class="text-gray-900"><%= @character.strength %></span></li>
+        <li><strong class="text-gray-700">Dexterity:</strong> <span class="text-gray-900"><%= @character.dexterity %></span></li>
+        <li><strong class="text-gray-700">Constitution:</strong> <span class="text-gray-900"><%= @character.constitution %></span></li>
+        <li><strong class="text-gray-700">Intelligence:</strong> <span class="text-gray-900"><%= @character.intelligence %></span></li>
+        <li><strong class="text-gray-700">Wisdom:</strong> <span class="text-gray-900"><%= @character.wisdom %></span></li>
+        <li><strong class="text-gray-700">Charisma:</strong> <span class="text-gray-900"><%= @character.charisma %></span></li>
+    </ul>
+</div>

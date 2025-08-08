@@ -9,9 +9,7 @@ describe "Home Request", type: :request do
 
   describe "GET /dashboard" do
     it "returns a successful response for authenticated users" do
-      user = create(:user)
-      session = create(:session, user: user)
-      allow(Current).to receive(:session).and_return(session)
+      session_sign_in
 
       get dashboard_path
 
