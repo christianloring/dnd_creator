@@ -1,2 +1,90 @@
-<h1>Characters#edit</h1>
-<p>Find me in app/views/characters/edit.html.erb</p>
+<div class="px-4 md:px-12 py-8">
+    <h1 class="text-3xl font-bold mb-6">Edit Character</h1>
+
+    <%= form_with(model: @character, local: true, html: { multipart: true }, class: "space-y-6") do |form| %>
+        <div class="mb-4">
+            <%= form.label :name, "Name", class: "block text-gray-700 font-bold mb-2" %>
+            <%= form.text_field :name, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
+        </div>
+
+        <div class="mb-4">
+            <%= form.label :profile_picture, "Profile Picture", class: "block text-gray-700 font-bold mb-2" %>
+            <% if @character.profile_picture.attached? %>
+                <div class="mb-2">
+                    <%= image_tag @character.profile_picture.variant(resize_to_limit: [100, 100]), class: "rounded" %>
+                </div>
+            <% end %>
+            <%= form.file_field :profile_picture, class: "block w-full text-gray-700 border rounded py-2 px-3 focus:outline-none focus:shadow-outline" %>
+        </div>
+
+        <div class="mb-4">
+            <%= form.label :character_class %><br>
+            <%= form.select :character_class,
+                options_for_select(Character::DND_CLASSES, selected: @character.character_class),
+                { prompt: "Choose a class" },
+                { class: "border rounded px-4 py-2 w-full", id: "character_class_select" } %>
+        </div>
+
+        <div class="mb-4">
+            <%= form.label :subclass %><br>
+            <%= form.select :subclass,
+                [],
+                { prompt: "Choose a subclass" },
+                { class: "border rounded px-4 py-2 w-full", id: "subclass_select", disabled: true } %>
+        </div>
+
+        <div class="mb-4">
+            <%= form.label :species, "Species", class: "block text-gray-700 font-bold mb-2" %>
+            <%= form.text_field :species, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
+        </div>
+
+        <div class="mb-4">
+            <%= form.label :level, "Level", class: "block text-gray-700 font-bold mb-2" %>
+            <%= form.select :level, (1..20).to_a, {}, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
+        </div>
+
+        <div class="mb-4">
+            <%= form.label :hitpoints, "Hitpoints", class: "block text-gray-700 font-bold mb-2" %>
+            <%= form.number_field :hitpoints, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline", min: 1 %>
+        </div>
+
+        <div class="mb-4">
+            <%= form.label :speed, "Speed", class: "block text-gray-700 font-bold mb-2" %>
+            <%= form.number_field :speed, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline", min: 1 %>
+        </div>
+
+        <div class="mb-4">
+            <label class="block text-gray-700 font-bold mb-2">Stats</label>
+            <div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-6 gap-4">
+                <div>
+                    <%= form.label :strength, "Strength", class: "block text-gray-700 font-bold mb-1" %>
+                    <%= form.select :strength, (8..20).to_a, {}, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
+                </div>
+                <div>
+                    <%= form.label :dexterity, "Dexterity", class: "block text-gray-700 font-bold mb-1" %>
+                    <%= form.select :dexterity, (8..20).to_a, {}, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
+                </div>
+                <div>
+                    <%= form.label :constitution, "Constitution", class: "block text-gray-700 font-bold mb-1" %>
+                    <%= form.select :constitution, (8..20).to_a, {}, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
+                </div>
+                <div>
+                    <%= form.label :intelligence, "Intelligence", class: "block text-gray-700 font-bold mb-1" %>
+                    <%= form.select :intelligence, (8..20).to_a, {}, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
+                </div>
+                <div>
+                    <%= form.label :wisdom, "Wisdom", class: "block text-gray-700 font-bold mb-1" %>
+                    <%= form.select :wisdom, (8..20).to_a, {}, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
+                </div>
+                <div>
+                    <%= form.label :charisma, "Charisma", class: "block text-gray-700 font-bold mb-1" %>
+                    <%= form.select :charisma, (8..20).to_a, {}, class: "shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" %>
+                </div>
+            </div>
+        </div>
+
+        <div>
+            <%= form.submit "Update Character", class: "bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" %>
+        </div>
+    <% end %>
+</div>

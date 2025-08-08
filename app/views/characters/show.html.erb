@@ -6,16 +6,72 @@
         <span><%= @character.name %></span>
     </h1>
 
-    <ul class="bg-white rounded-lg shadow-md p-8 w-full max-w-md space-y-4">
-        <li><strong class="text-gray-700">Class:</strong> <span class="text-gray-900"><%= @character.character_class %></span></li>
-        <li><strong class="text-gray-700">Subclass:</strong> <span class="text-gray-900"><%= @character.subclass %></span></li>
-        <li><strong class="text-gray-700">Species:</strong> <span class="text-gray-900"><%= @character.species %></span></li>
-        <li><strong class="text-gray-700">Level:</strong> <span class="text-gray-900"><%= @character.level %></span></li>
-        <li><strong class="text-gray-700">Strength:</strong> <span class="text-gray-900"><%= @character.strength %></span></li>
-        <li><strong class="text-gray-700">Dexterity:</strong> <span class="text-gray-900"><%= @character.dexterity %></span></li>
-        <li><strong class="text-gray-700">Constitution:</strong> <span class="text-gray-900"><%= @character.constitution %></span></li>
-        <li><strong class="text-gray-700">Intelligence:</strong> <span class="text-gray-900"><%= @character.intelligence %></span></li>
-        <li><strong class="text-gray-700">Wisdom:</strong> <span class="text-gray-900"><%= @character.wisdom %></span></li>
-        <li><strong class="text-gray-700">Charisma:</strong> <span class="text-gray-900"><%= @character.charisma %></span></li>
+    <ul class="bg-white rounded-lg shadow-md p-8 w-full max-w-lg space-y-4">
+        <li>
+            <div class="flex flex-wrap gap-4 mt-2 text-gray-900">
+                <span><strong>STR</strong>: <%= @character.strength %></span>
+                <span><strong>DEX</strong>: <%= @character.dexterity %></span>
+                <span><strong>CON</strong>: <%= @character.constitution %></span>
+                <span><strong>INT</strong>: <%= @character.intelligence %></span>
+                <span><strong>WIS</strong>: <%= @character.wisdom %></span>
+                <span><strong>CHA</strong>: <%= @character.charisma %></span>
+            </div>
+        </li>
+        <li>
+            <div class="flex flex-wrap gap-6 items-center">
+            <div>
+                <strong class="text-gray-700">Class:</strong>
+                <span class="text-gray-900"><%= @character.character_class %></span>
+            </div>
+            <div>
+                <strong class="text-gray-700">Subclass:</strong>
+                <span class="text-gray-900"><%= @character.subclass %></span>
+            </div>
+            <div>
+                <strong class="text-gray-700">Species:</strong>
+                <span class="text-gray-900"><%= @character.species %></span>
+            </div>
+            </div>
+        </li>
+        <li>
+            <div class="flex flex-wrap gap-6 items-center">
+            <div>
+                <strong class="text-gray-700">Level:</strong>
+                <span class="text-gray-900"><%= @character.level %></span>
+            </div>
+            <div>
+                <strong class="text-gray-700">Hitpoints:</strong>
+                <span class="text-gray-900"><%= @character.hitpoints %></span>
+            </div>
+            <div>
+                <strong class="text-gray-700">AC:</strong>
+                <span class="text-gray-900"><%= 10 + ((@character.dexterity - 10) / 2).floor %></span>
+            </div>
+            <div>
+                <strong class="text-gray-700">Speed:</strong>
+                <span class="text-gray-900"><%= @character.speed || 30 %> ft</span>
+            </div>
+            </div>
+        </li>
+        <li>
+            <strong class="text-gray-700">Feats:</strong>
+            <ul class="list-disc ml-6 text-gray-900">
+                <% @character.feats&.each do |feat| %>
+                    <li><%= feat %></li>
+                <% end %>
+            </ul>
+        </li>
+        <li>
+            <strong class="text-gray-700">Items:</strong>
+            <div class="ml-6">
+                <div>
+                    <ul class="list-disc ml-6 text-gray-900">
+                        <% @character.items&.each do |item| %>
+                            <li><%= item %></li>
+                        <% end %>
+                    </ul>
+                </div>
+            </div>
+        </li>
     </ul>
 </div>

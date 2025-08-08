@@ -1,2 +1,17 @@
-<h1>Characters#index</h1>
-<p>Find me in app/views/characters/index.html.erb</p>
+<div class="flex flex-wrap justify-center gap-6 mt-6">
+    <% @characters.each do |character| %>
+        <div class="bg-white border border-gray-200 rounded-lg shadow p-5 w-full max-w-xs flex flex-col items-center md:basis-1/3">
+            <% if character.profile_picture.attached? %>
+                <%= image_tag character.profile_picture, alt: "#{character.name}'s Profile Picture", width: 200, class: "mb-4 rounded-full" %>
+            <% end %>
+            <h2 class="text-xl font-semibold mb-2 text-center"><%= character.name %></h2>
+            <div class="flex space-x-3">
+                <%= link_to 'Show', character_path(character), class: "text-blue-600 hover:underline" %>
+                <span>|</span>
+                <%= link_to 'Edit', edit_character_path(character), class: "text-yellow-600 hover:underline" %>
+                <span>|</span>
+                <%= link_to 'Delete', character_path(character), method: :delete, data: { confirm: 'Are you sure?' }, class: "text-red-600 hover:underline" %>
+            </div>
+        </div>
+    <% end %>
+</div>
