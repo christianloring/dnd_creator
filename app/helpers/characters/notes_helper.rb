@@ -1,0 +1,2 @@
+module Characters::NotesHelper
+end

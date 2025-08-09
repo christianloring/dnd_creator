@@ -29,6 +29,7 @@ class Character < ApplicationRecord
 
   has_many :campaign_characters, dependent: :destroy
   has_many :campaigns, through: :campaign_characters
+  has_many :notes, as: :notable, dependent: :destroy
 
   has_one :game_profile, dependent: :destroy
 
