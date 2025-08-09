@@ -1,9 +1,9 @@
 FactoryBot.define do
   factory :run do
-    game_profile { nil }
+    association :game_profile
     stage { 1 }
-    result { "MyString" }
-    score { 1 }
-    data { "" }
+    result { "win" }
+    score { 100 }
+    data { {} }
   end
 end

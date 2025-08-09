@@ -49,16 +49,17 @@ class GameProfile < ApplicationRecord
   end
 
   def check_level_up
-    enemies_needed = level
-    if exp >= enemies_needed * 10
-      self.level += 1
-      self.exp = 0
-      self.max_hp = base_max_hp + (8 * (level - character.level))  # Base HP + 8 per level gained in game
-      self.hp_current = max_hp  # Full heal to new max HP
-      save!
-      return true
-    end
-    false
+    threshold = level * 10
+    return false unless exp >= threshold
+
+    self.level += 1
+    self.exp = 0
+    base = base_max_hp || 10
+    char_lvl = character.level || 1
+    self.max_hp = base + (8 * (level - char_lvl))
+    self.hp_current = max_hp
+    save!
+    true
   end
 
   private

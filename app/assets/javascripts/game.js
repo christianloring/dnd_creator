@@ -141,15 +141,16 @@ if (root){
             "Content-Type": "application/json", 
             "X-CSRF-Token": token 
           },
-          body: JSON.stringify({ 
-            game_profile: { 
-              level: pc.level, 
-              exp: pc.exp, // Send current total XP
-              hp_current: pc.hp,
-              gold: pc.gold,
-              data: pc.gameData
-            } 
-          })
+                  body: JSON.stringify({ 
+          game_profile: { 
+            level: pc.level, 
+            exp: pc.exp, // Send current total XP
+            hp_current: pc.hp,
+            max_hp: pc.maxHp,
+            gold: pc.gold,
+            data: pc.gameData
+          } 
+        })
         })
         .then(response => response.json())
         .then(data => {
@@ -243,6 +244,7 @@ if (root){
           level: pc.level, 
           exp: pc.exp,
           hp_current: pc.hp,
+          max_hp: pc.maxHp,
           gold: pc.gold,
           data: pc.gameData
         } 

@@ -1,10 +1,11 @@
 FactoryBot.define do
   factory :game_profile do
-    character { nil }
+    association :character
     level { 1 }
-    exp { 1 }
-    hp_current { 1 }
-    gold { 1 }
-    data { "" }
+    exp { 0 }
+    hp_current { 10 }
+    max_hp { 10 }
+    gold { 0 }
+    data { {} }
   end
 end
