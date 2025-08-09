@@ -45,7 +45,7 @@ class Campaigns::NotesController < ApplicationController
   end
 
   def set_note
-    @note = @campaign.notes.find(params[:id])
+    @note = @campaign.notes.where(user: current_user).find(params[:id])
   end
 
   def note_params
