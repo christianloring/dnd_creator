@@ -74,13 +74,13 @@
             </div>
         </li>
     </ul>
-    
+
     <div class="mt-4 flex gap-2">
       <%= link_to "Play Battle", play_character_path(@character), class: "bg-purple-600 text-white px-3 py-1 rounded hover:bg-purple-700" %>
       <% if @character.game_profile %>
         <span class="text-sm text-gray-600">
-          • Game Level: <%= @character.game_profile.level %> 
-          • XP: <%= @character.game_profile.exp %> 
+          • Game Level: <%= @character.game_profile.level %>
+          • XP: <%= @character.game_profile.exp %>
           • Gold: <%= @character.game_profile.gold %>
         </span>
       <% end %>
