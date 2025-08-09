@@ -4,7 +4,12 @@ Rails.application.routes.draw do
   resources :passwords, param: :token
   resource :registration, only: %i[new create]
   resource :session, only: %i[new create destroy]
-  resources :characters
+  resources :characters do
+    member { get :play }
+    member { patch :update_game_profile }
+    member { post :reset_game_profile }
+    resources :runs, only: [ :create ]
+  end
 
   get "home/index"
   get "dashboard", to: "home#dashboard", as: :dashboard

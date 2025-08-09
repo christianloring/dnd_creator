@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_08_08_185736) do
+ActiveRecord::Schema[8.0].define(version: 2025_08_09_011207) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -105,11 +105,47 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_08_185736) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "game_profiles", force: :cascade do |t|
+    t.bigint "character_id", null: false
+    t.integer "level"
+    t.integer "exp"
+    t.integer "hp_current"
+    t.integer "gold"
+    t.jsonb "data"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "max_hp"
+    t.index ["character_id"], name: "index_game_profiles_on_character_id"
+  end
+
   create_table "items", force: :cascade do |t|
     t.string "name"
     t.text "description"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+  end
+
+  create_table "notes", force: :cascade do |t|
+    t.string "title"
+    t.text "body"
+    t.string "notable_type", null: false
+    t.bigint "notable_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["notable_type", "notable_id"], name: "index_notes_on_notable"
+    t.index ["user_id"], name: "index_notes_on_user_id"
+  end
+
+  create_table "runs", force: :cascade do |t|
+    t.bigint "game_profile_id", null: false
+    t.integer "stage"
+    t.string "result"
+    t.integer "score"
+    t.jsonb "data"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["game_profile_id"], name: "index_runs_on_game_profile_id"
   end
 
   create_table "sessions", force: :cascade do |t|
@@ -139,5 +175,8 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_08_185736) do
   add_foreign_key "character_items", "characters"
   add_foreign_key "character_items", "items"
   add_foreign_key "characters", "users"
+  add_foreign_key "game_profiles", "characters"
+  add_foreign_key "notes", "users"
+  add_foreign_key "runs", "game_profiles"
   add_foreign_key "sessions", "users"
 end

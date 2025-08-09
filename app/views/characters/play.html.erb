@@ -1,0 +1,57 @@
+<div class="min-h-[70vh] flex flex-col items-center gap-4 pt-6">
+  <h1 class="text-2xl font-semibold">Battle: <%= @character.name %></h1>
+
+  <%# derive AC if you do not store it %>
+  <% ac = 10 + ((@character.dexterity.to_i - 10) / 2).floor %>
+
+  <%# simple defaults for dice. later you can compute from items or spells %>
+  <% weapon_die = "1d8" %>
+  <% spell_die  = "2d6" %>
+
+  <div id="game-root"
+       data-character-id="<%= @character.id %>"
+       data-name="<%= @character.name %>"
+       data-level="<%= @game_profile.level %>"
+       data-hp="<%= @game_profile.hp_current %>"
+       data-max-hp="<%= @game_profile.max_hp %>"
+       data-ac="<%= ac %>"
+       data-str="<%= @character.strength.to_i %>"
+       data-dex="<%= @character.dexterity.to_i %>"
+       data-int="<%= @character.intelligence.to_i %>"
+       data-wis="<%= @character.wisdom.to_i %>"
+       data-cha="<%= @character.charisma.to_i %>"
+       data-exp="<%= @game_profile.exp %>"
+       data-gold="<%= @game_profile.gold %>"
+       data-game-data="<%= @game_profile.data.to_json %>"
+       data-wep-die="<%= weapon_die %>"
+       data-spell-die="<%= spell_die %>">
+  </div>
+
+  <div class="w-full max-w-3xl bg-white/90 border border-gray-300 rounded-lg shadow p-4 space-y-3">
+    <div class="flex items-center justify-between text-sm">
+      <div>
+        <span class="font-semibold">You</span>
+        <span id="ui-name" class="ml-1"></span>
+        • LV <span id="ui-lvl"></span>
+        • AC <span id="ui-ac"></span>
+      </div>
+      <div>
+        HP <span id="ui-hp"></span>/<span id="ui-max-hp"></span>
+        • Enemy HP <span id="ui-ehp"></span>
+        • XP <span id="ui-exp"></span>
+        • Gold <span id="ui-gold"></span>
+      </div>
+    </div>
+
+    <div class="flex gap-2 justify-center">
+      <button id="btn-attack" class="px-3 py-1 bg-blue-600 text-white rounded">Attack</button>
+      <button id="btn-spell"  class="px-3 py-1 bg-indigo-600 text-white rounded">Cast</button>
+      <button id="btn-heal"   class="px-3 py-1 bg-green-600 text-white rounded">Heal</button>
+      <button id="btn-reset"  class="px-3 py-1 bg-red-600 text-white rounded">Reset Progress</button>
+    </div>
+
+    <div id="combat-log" class="h-48 overflow-y-auto bg-gray-50 border border-gray-200 rounded p-2 text-sm"></div>
+  </div>
+</div>
+
+<%= javascript_include_tag "game", type: "module" %>
