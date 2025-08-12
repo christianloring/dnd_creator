@@ -1,13 +1,14 @@
 <div class="min-h-[70vh] flex flex-col items-center gap-4 pt-6">
   <h1 class="text-2xl font-semibold">Battle: <%= @character.name %></h1>
 
-  <%# derive AC if you do not store it %>
+  <%# Calculate derived stats %>
   <% ac = 10 + ((@character.dexterity.to_i - 10) / 2).floor %>
 
-  <%# simple defaults for dice. later you can compute from items or spells %>
+  <%# Default weapon and spell dice (can be enhanced with items/spells later) %>
   <% weapon_die = "1d8" %>
   <% spell_die  = "2d6" %>
 
+  <%# Game data container - passes character and game profile data to JavaScript %>
   <div id="game-root"
        data-character-id="<%= @character.id %>"
        data-name="<%= @character.name %>"
@@ -27,7 +28,9 @@
        data-spell-die="<%= spell_die %>">
   </div>
 
+    <%# Main game interface %>
   <div class="w-full max-w-3xl bg-white/90 border border-gray-300 rounded-lg shadow p-4 space-y-3">
+    <%# Status display %>
     <div class="flex items-center justify-between text-sm">
       <div>
         <span class="font-semibold">You</span>
@@ -43,6 +46,7 @@
       </div>
     </div>
 
+    <%# Action buttons %>
     <div class="flex gap-2 justify-center">
       <button id="btn-attack" class="px-3 py-1 bg-blue-600 text-white rounded">Attack</button>
       <button id="btn-spell" class="px-3 py-1 bg-indigo-600 text-white rounded">Cast</button>
@@ -58,104 +62,10 @@
       <button id="btn-next" class="px-3 py-1 bg-purple-600 text-white rounded hidden">Next Battle</button>
     </div>
 
-    <!-- Shop Modal -->
-    <div id="shop-modal"
-         class="fixed inset-0 z-50 hidden"
-         role="dialog" aria-modal="true" aria-labelledby="shop-title"
-         data-controller="shop"
-         data-shop-target="modal"
-         data-action="keyup@window->shop#esc">
-      <div class="absolute inset-0 bg-black/40" id="shop-backdrop"></div>
+    <%# Shop modal (rendered as partial) %>
+    <%= render "characters/shop_modal" %>
 
-      <div class="relative mx-auto mt-10 max-w-3xl rounded-lg bg-white shadow-lg">
-        <div class="flex items-center justify-between p-4 border-b">
-          <h2 id="shop-title" class="text-lg font-semibold">Shop</h2>
-          <button class="px-2 py-1" id="shop-close" aria-label="Close">✕</button>
-        </div>
-
-        <div class="p-4">
-          <div class="flex items-center justify-between mb-4">
-            <div class="text-sm text-gray-600">Gold: <span id="ui-gold-modal"></span></div>
-          </div>
-
-          <div class="grid grid-cols-1 md:grid-cols-3 gap-3 text-sm">
-            <!-- Core Upgrades -->
-            <div class="border rounded p-3">
-              <div class="font-medium mb-2">Core Upgrades</div>
-              <div class="space-y-2">
-                <div>
-                  <div>Armor (AC +<span id="ui-gear-armor-modal"></span>)</div>
-                  <div class="flex gap-2 mt-1">
-                    <button class="shop-btn bg-gray-200 px-2 py-1 rounded" data-buy="armor" data-tier="1">Buy +1 (100)</button>
-                    <button class="shop-btn bg-gray-200 px-2 py-1 rounded" data-buy="armor" data-tier="2">+2 (250)</button>
-                    <button class="shop-btn bg-gray-200 px-2 py-1 rounded" data-buy="armor" data-tier="3">+3 (500)</button>
-                  </div>
-                </div>
-                <div>
-                  <div>Melee Weapon (+Atk/Dmg +<span id="ui-gear-weapon-modal"></span>)</div>
-                  <div class="flex gap-2 mt-1">
-                    <button class="shop-btn bg-gray-200 px-2 py-1 rounded" data-buy="weapon" data-tier="1">+1 (120)</button>
-                    <button class="shop-btn bg-gray-200 px-2 py-1 rounded" data-buy="weapon" data-tier="2">+2 (300)</button>
-                    <button class="shop-btn bg-gray-200 px-2 py-1 rounded" data-buy="weapon" data-tier="3">+3 (600)</button>
-                  </div>
-                </div>
-                <div>
-                  <div>Wand/Focus (+Spell Atk/Dmg +<span id="ui-gear-wand-modal"></span>)</div>
-                  <div class="flex gap-2 mt-1">
-                    <button class="shop-btn bg-gray-200 px-2 py-1 rounded" data-buy="wand" data-tier="1">+1 (120)</button>
-                    <button class="shop-btn bg-gray-200 px-2 py-1 rounded" data-buy="wand" data-tier="2">+2 (300)</button>
-                    <button class="shop-btn bg-gray-200 px-2 py-1 rounded" data-buy="wand" data-tier="3">+3 (600)</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Consumables -->
-            <div class="border rounded p-3">
-              <div class="font-medium mb-2">Consumables</div>
-              <div class="space-y-2">
-                <div class="flex items-center justify-between">
-                  <div>Health Potion (50% heal)</div>
-                  <div>
-                    <span id="ui-potion-count-modal" class="mr-2"></span>
-                    <button class="shop-btn bg-gray-200 px-2 py-1 rounded" data-buy="potion" data-tier="1">Buy (50)</button>
-                    <button id="use-potion-modal" class="bg-green-600 text-white px-2 py-1 rounded ml-2">Use</button>
-                  </div>
-                </div>
-                <div class="flex items-center justify-between">
-                  <div>Greater Health Potion (Full heal)</div>
-                  <div>
-                    <span id="ui-gpotion-count-modal" class="mr-2"></span>
-                    <button class="shop-btn bg-gray-200 px-2 py-1 rounded" data-buy="gpotion" data-tier="1">Buy (100)</button>
-                    <button id="use-gpotion-modal" class="bg-green-700 text-white px-2 py-1 rounded ml-2">Use</button>
-                  </div>
-                </div>
-              </div>
-            </div>
-
-            <!-- Meta Upgrades -->
-            <div class="border rounded p-3">
-              <div class="font-medium mb-2">Meta Upgrades</div>
-              <div class="space-y-2">
-                <button class="shop-btn w-full bg-gray-200 px-2 py-1 rounded flex justify-between" data-buy="meta-battleTraining">
-                  <span>Battle Training (+1 weapon attack)</span><span>300</span>
-                </button>
-                <button class="shop-btn w-full bg-gray-200 px-2 py-1 rounded flex justify-between" data-buy="meta-arcaneStudy">
-                  <span>Arcane Study (+1 spell atk & dmg)</span><span>300</span>
-                </button>
-                <button class="shop-btn w-full bg-gray-200 px-2 py-1 rounded flex justify-between" data-buy="meta-blessedCharm">
-                  <span>Blessed Charm (+10 HP at start)</span><span>250</span>
-                </button>
-                <button class="shop-btn w-full bg-gray-200 px-2 py-1 rounded flex justify-between" data-buy="meta-greedyPouch">
-                  <span>Greedy Pouch (+25% gold per win)</span><span>250</span>
-                </button>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
+    <%# Combat log %>
     <div id="combat-log" class="h-48 overflow-y-auto bg-gray-50 border border-gray-200 rounded p-2 text-sm"></div>
   </div>
 </div>

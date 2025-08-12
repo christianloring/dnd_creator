@@ -423,18 +423,15 @@ if (root){
   }
 
   function openShop() {
-    console.log("Opening shop");
     const modal = document.getElementById("shop-modal");
     if (modal) {
       modal.classList.remove("hidden");
       document.body.classList.add("overflow-hidden");
-      // Focus first focusable element
       modal.querySelector("button, [href], input, select, textarea")?.focus();
     }
   }
 
   function closeShop() {
-    console.log("Closing shop");
     const modal = document.getElementById("shop-modal");
     if (modal) {
       modal.classList.add("hidden");
