@@ -19,11 +19,11 @@
                                  <%= link_to "Delete", npc_path(npc), data: { turbo_method: :delete, confirm: "Are you sure?" }, class: "text-red-600 hover:underline text-sm" %>
             </div>
           </div>
-          
+
           <div class="text-gray-600 text-sm mb-4">
             <p class="line-clamp-3"><%= npc.description %></p>
           </div>
-          
+
           <div class="text-xs text-gray-500">
             Created: <%= npc.created_at.strftime("%B %d, %Y") %>
           </div>

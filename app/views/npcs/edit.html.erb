@@ -34,13 +34,13 @@
     <div class="bg-white rounded-lg shadow-md p-6">
       <h2 class="text-xl font-semibold text-gray-900 mb-6">NPC Traits</h2>
       <p class="text-gray-600 mb-6">Select traits for each category or leave as "None" to skip that trait.</p>
-      
+
       <%= form.fields_for :data do |data_form| %>
         <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           <% @categories.each do |category, options| %>
             <div class="space-y-2">
               <%= data_form.label category, category.to_s.humanize, class: "block text-sm font-medium text-gray-700" %>
-              <%= data_form.select category, 
+              <%= data_form.select category,
                   options_for_select([['None', 'None']] + options.map { |opt| [opt, opt] }, @npc.data&.dig(category.to_s) || @npc.data&.dig(category) || 'None'),
                   {},
                   class: "w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" %>

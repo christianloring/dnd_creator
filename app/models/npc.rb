@@ -146,49 +146,143 @@ class Npc < ApplicationRecord
   def description
     return "No description available" if data.blank?
 
-    parts = []
+    sections = []
 
-    # Physical description
-    physical = []
-    physical << data["body_types"] if data["body_types"] && data["body_types"] != "None"
-    physical << data["build"] if data["build"] && data["build"] != "None"
-    physical << data["skintone"] if data["skintone"] && data["skintone"] != "None"
+    # Physical build
+    physical_traits = []
+    physical_traits << data["body_types"] if data["body_types"] && data["body_types"] != "None"
+    physical_traits << data["build"] if data["build"] && data["build"] != "None"
 
-    if physical.any?
-      parts << "A #{physical.join(', ')} individual"
+    if physical_traits.any?
+      sections << "Physical build: #{physical_traits.join(', ').downcase}"
     end
 
-    # Face description
-    face = []
-    face << data["face_shapes"] if data["face_shapes"] && data["face_shapes"] != "None"
-    face << data["eye_color"] if data["eye_color"] && data["eye_color"] != "None"
-    face << data["eye_shape"] if data["eye_shape"] && data["eye_shape"] != "None"
-
-    if face.any?
-      parts << "with #{face.join(', ')} features"
+    # Skin tone
+    if data["skintone"] && data["skintone"] != "None"
+      sections << "Skin: #{data["skintone"].downcase}"
     end
 
-    # Hair description
-    hair = []
-    hair << data["hair_color"] if data["hair_color"] && data["hair_color"] != "None"
-    hair << data["hair_texture"] if data["hair_texture"] && data["hair_texture"] != "None"
-    hair << data["hair_length"] if data["hair_length"] && data["hair_length"] != "None"
+    # Facial features
+    face_features = []
 
-    if hair.any?
-      parts << "and #{hair.join(', ')} hair"
+    if data["face_shapes"] && data["face_shapes"] != "None"
+      face_features << "#{data["face_shapes"].downcase} face"
     end
 
-    # Personality/behavior
-    personality = []
-    personality << data["temperament"] if data["temperament"] && data["temperament"] != "None"
-    personality << data["speech_patterns"] if data["speech_patterns"] && data["speech_patterns"] != "None"
-    personality << data["mannerisms"] if data["mannerisms"] && data["mannerisms"] != "None"
-
-    if personality.any?
-      parts << "They are #{personality.join(', ')}"
+    # Combine eye shape and color
+    if data["eye_color"] && data["eye_color"] != "None" && data["eye_shape"] && data["eye_shape"] != "None"
+      face_features << "#{data["eye_shape"].downcase} #{data["eye_color"].downcase} eyes"
+    elsif data["eye_color"] && data["eye_color"] != "None"
+      face_features << "#{data["eye_color"].downcase} eyes"
+    elsif data["eye_shape"] && data["eye_shape"] != "None"
+      face_features << "#{data["eye_shape"].downcase} eyes"
     end
 
-    parts.join(". ")
+    if data["nose"] && data["nose"] != "None"
+      face_features << "#{data["nose"].downcase} nose"
+    end
+
+    if data["eyebrows"] && data["eyebrows"] != "None"
+      face_features << "#{data["eyebrows"].downcase} eyebrows"
+    end
+
+    if data["mouth_lips"] && data["mouth_lips"] != "None"
+      face_features << "#{data["mouth_lips"].downcase} lips"
+    end
+
+    if data["teeth"] && data["teeth"] != "None"
+      face_features << "#{data["teeth"].downcase} teeth"
+    end
+
+    if face_features.any?
+      sections << "Facial features: #{face_features.join(', ')}"
+    end
+
+    # Hair
+    hair_traits = []
+    hair_traits << data["hair_color"] if data["hair_color"] && data["hair_color"] != "None"
+    hair_traits << data["hair_texture"] if data["hair_texture"] && data["hair_texture"] != "None"
+    hair_traits << data["hair_length"] if data["hair_length"] && data["hair_length"] != "None"
+
+    if hair_traits.any?
+      sections << "Hair: #{hair_traits.join(', ')}"
+    end
+
+    # Physical features
+    physical_features = []
+
+    if data["hands"] && data["hands"] != "None"
+      physical_features << "#{data["hands"].downcase} hands"
+    end
+
+    if data["scars_markings"] && data["scars_markings"] != "None"
+      physical_features << data["scars_markings"].downcase
+    end
+
+    if data["misc"] && data["misc"] != "None"
+      physical_features << data["misc"].downcase
+    end
+
+    if physical_features.any?
+      sections << "Physical features: #{physical_features.join(', ')}"
+    end
+
+    # Posture and movement
+    if data["posture"] && data["posture"] != "None"
+      sections << "Posture: #{data["posture"].downcase}"
+    end
+
+    # Clothing
+    if data["clothing"] && data["clothing"] != "None"
+      sections << "Clothing: #{data["clothing"].downcase}"
+    end
+
+    # Voice
+    if data["voice"] && data["voice"] != "None"
+      sections << "Voice: #{data["voice"].downcase}"
+    end
+
+    # Smell
+    if data["smell"] && data["smell"] != "None"
+      smell = data["smell"].downcase
+      if smell.start_with?("of ") || smell.start_with?("smells of ")
+        sections << "Smell: #{smell.gsub(/^smells of /, 'of ')}"
+      else
+        sections << "Smell: #{smell}"
+      end
+    end
+
+    # Personality and behavior
+    personality_traits = []
+
+    if data["temperament"] && data["temperament"] != "None"
+      personality_traits << data["temperament"].downcase
+    end
+
+    if data["speech_patterns"] && data["speech_patterns"] != "None"
+      # Fix tense for speech patterns
+      speech = data["speech_patterns"].downcase
+      speech = speech.gsub(/talks /, "talk ").gsub(/speaks /, "speak ").gsub(/stumbles /, "stumble ")
+      personality_traits << speech
+    end
+
+    if data["mannerisms"] && data["mannerisms"] != "None"
+      # Fix tense for mannerisms
+      mannerism = data["mannerisms"].downcase
+      mannerism = mannerism.gsub(/stroking /, "stroke ").gsub(/biting /, "bite ").gsub(/drumming /, "drum ").gsub(/narrowing /, "narrow ").gsub(/crossing /, "cross ").gsub(/tapping /, "tap ").gsub(/checking /, "check ").gsub(/cracking /, "crack ").gsub(/adjusting /, "adjust ")
+      personality_traits << mannerism
+    end
+
+    if personality_traits.any?
+      sections << "Personality: #{personality_traits.join(', ')}"
+    end
+
+    # Format as bulleted list
+    if sections.any?
+      sections.map { |section| "• #{section}" }.join("\n")
+    else
+      "No traits specified"
+    end
   end
 
   private

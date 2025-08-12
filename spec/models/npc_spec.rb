@@ -71,11 +71,11 @@ RSpec.describe Npc, type: :model do
           'temperament' => 'Calm'
         }
         description = npc.description
-        expect(description).to include('Tall')
-        expect(description).to include('Athletic')
-        expect(description).to include('Fair')
-        expect(description).to include('Blue')
-        expect(description).to include('Calm')
+        expect(description).to include('tall')
+        expect(description).to include('athletic')
+        expect(description).to include('fair')
+        expect(description).to include('blue')
+        expect(description).to include('calm')
       end
 
       it 'handles empty data' do
