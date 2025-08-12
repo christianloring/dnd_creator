@@ -65,6 +65,8 @@ class GameProfile < ApplicationRecord
   private
 
   def set_defaults
+    return unless character # Skip if character is nil (during validation tests)
+
     self.level ||= character.level || 1
     self.exp ||= 0
     self.hp_current ||= character.hitpoints || 10
