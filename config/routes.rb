@@ -1,4 +1,11 @@
 Rails.application.routes.draw do
+  get "npcs/index"
+  get "npcs/show"
+  get "npcs/new"
+  get "npcs/create"
+  get "npcs/edit"
+  get "npcs/update"
+  get "npcs/destroy"
   root "home#index"
 
   resources :passwords, param: :token
@@ -18,6 +25,12 @@ Rails.application.routes.draw do
 
   resources :campaigns do
     resources :notes, module: :campaigns
+  end
+
+  resources :npcs do
+    collection do
+      get :randomize
+    end
   end
 
   get "dashboard", to: "home#dashboard", as: :dashboard

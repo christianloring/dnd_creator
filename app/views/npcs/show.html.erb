@@ -1,0 +1,50 @@
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <div class="flex justify-between items-center mb-8">
+    <h1 class="text-3xl font-bold text-gray-900"><%= @npc.name %></h1>
+    <div class="flex gap-3">
+      <%= link_to "Back to NPCs", npcs_path, class: "bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition-colors" %>
+      <%= link_to "Edit", edit_npc_path(@npc), class: "bg-blue-600 text-white px-4 py-2 rounded-lg hover:bg-blue-700 transition-colors" %>
+                 <%= link_to "Delete", npc_path(@npc), data: { turbo_method: :delete, confirm: "Are you sure you want to delete this NPC?" }, class: "bg-red-600 text-white px-4 py-2 rounded-lg hover:bg-red-700 transition-colors" %>
+    </div>
+  </div>
+
+
+
+  <!-- NPC Description -->
+  <div class="bg-white rounded-lg shadow-md p-6 mb-8">
+    <h2 class="text-xl font-semibold text-gray-900 mb-4">Description</h2>
+    <p class="text-gray-700 leading-relaxed"><%= @npc.description %></p>
+  </div>
+
+  <!-- NPC Traits Grid -->
+  <div class="bg-white rounded-lg shadow-md p-6">
+    <h2 class="text-xl font-semibold text-gray-900 mb-6">All Traits</h2>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <% Npc::CATEGORIES.each do |category, options| %>
+        <% trait_value = @npc.data&.dig(category.to_s) || @npc.data&.dig(category) %>
+        <% if trait_value.present? && trait_value != 'None' && trait_value != "None" %>
+          <div class="border border-gray-200 rounded-lg p-4">
+            <h3 class="font-medium text-gray-900 mb-2"><%= category.to_s.humanize %></h3>
+            <p class="text-gray-700"><%= trait_value %></p>
+          </div>
+        <% end %>
+      <% end %>
+    </div>
+
+    <% if @npc.data&.all? { |k, v| v.blank? || v == 'None' || v == "None" } %>
+      <div class="text-center py-8 text-gray-500">
+        <p>No traits have been set for this NPC.</p>
+        <%= link_to "Add traits", edit_npc_path(@npc), class: "text-blue-600 hover:underline" %>
+      </div>
+    <% end %>
+  </div>
+
+  <!-- Metadata -->
+  <div class="mt-8 text-sm text-gray-500">
+    <p>Created: <%= @npc.created_at.strftime("%B %d, %Y at %I:%M %p") %></p>
+    <% if @npc.updated_at != @npc.created_at %>
+      <p>Last updated: <%= @npc.updated_at.strftime("%B %d, %Y at %I:%M %p") %></p>
+    <% end %>
+  </div>
+</div>

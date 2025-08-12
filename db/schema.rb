@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[8.0].define(version: 2025_08_09_015458) do
+ActiveRecord::Schema[8.0].define(version: 2025_08_12_224553) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_catalog.plpgsql"
 
@@ -98,6 +98,22 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_09_015458) do
     t.index ["user_id"], name: "index_characters_on_user_id"
   end
 
+  create_table "encounters", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.jsonb "inputs", default: {}, null: false
+    t.jsonb "composition", default: {}, null: false
+    t.integer "total_xp", null: false
+    t.string "theme"
+    t.string "slug"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["composition"], name: "index_encounters_on_composition", using: :gin
+    t.index ["inputs"], name: "index_encounters_on_inputs", using: :gin
+    t.index ["slug"], name: "index_encounters_on_slug", unique: true
+    t.index ["theme"], name: "index_encounters_on_theme"
+    t.index ["user_id"], name: "index_encounters_on_user_id"
+  end
+
   create_table "feats", force: :cascade do |t|
     t.string "name"
     t.text "description"
@@ -135,6 +151,15 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_09_015458) do
     t.datetime "updated_at", null: false
     t.index ["notable_type", "notable_id"], name: "index_notes_on_notable"
     t.index ["user_id"], name: "index_notes_on_user_id"
+  end
+
+  create_table "npcs", force: :cascade do |t|
+    t.bigint "user_id", null: false
+    t.string "name"
+    t.jsonb "data"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["user_id"], name: "index_npcs_on_user_id"
   end
 
   create_table "runs", force: :cascade do |t|
@@ -175,8 +200,10 @@ ActiveRecord::Schema[8.0].define(version: 2025_08_09_015458) do
   add_foreign_key "character_items", "characters"
   add_foreign_key "character_items", "items"
   add_foreign_key "characters", "users"
+  add_foreign_key "encounters", "users"
   add_foreign_key "game_profiles", "characters"
   add_foreign_key "notes", "users"
+  add_foreign_key "npcs", "users"
   add_foreign_key "runs", "game_profiles"
   add_foreign_key "sessions", "users"
 end
