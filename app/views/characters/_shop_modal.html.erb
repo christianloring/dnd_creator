@@ -8,15 +8,15 @@
   <div class="absolute inset-0 bg-black/40" id="shop-backdrop"></div>
 
   <!-- Modal content -->
-  <div class="relative mx-auto mt-10 max-w-3xl rounded-lg bg-white shadow-lg">
+  <div class="relative mx-auto mt-10 max-w-3xl max-h-[80vh] rounded-lg bg-white shadow-lg flex flex-col">
     <!-- Modal header -->
-    <div class="flex items-center justify-between p-4 border-b">
+    <div class="flex items-center justify-between p-4 border-b flex-shrink-0">
       <h2 id="shop-title" class="text-lg font-semibold">Shop</h2>
       <button class="px-2 py-1" id="shop-close" aria-label="Close">✕</button>
     </div>
 
     <!-- Modal body -->
-    <div class="p-4">
+    <div class="p-4 overflow-y-auto flex-1">
       <!-- Gold display -->
       <div class="flex items-center justify-between mb-6">
         <div class="text-lg font-semibold">Gold: <span id="ui-gold-modal" class="text-amber-600"></span></div>
