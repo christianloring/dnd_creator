@@ -88,12 +88,20 @@ if (root){
     ui.exp.textContent  = pc.exp;
     ui.gold.textContent = pc.gold;
     
-    // Shop readouts
+    // Shop readouts (main UI)
     document.getElementById("ui-gear-armor")?.replaceChildren(String(pc.gameData.gear.armor||0));
     document.getElementById("ui-gear-weapon")?.replaceChildren(String(pc.gameData.gear.weapon||0));
     document.getElementById("ui-gear-wand")?.replaceChildren(String(pc.gameData.gear.wand||0));
     document.getElementById("ui-potion-count")?.replaceChildren(`x${pc.gameData.bag.potion}`);
     document.getElementById("ui-gpotion-count")?.replaceChildren(`x${pc.gameData.bag.gpotion}`);
+    
+    // Shop readouts (modal)
+    document.getElementById("ui-gold-modal")?.replaceChildren(String(pc.gold));
+    document.getElementById("ui-gear-armor-modal")?.replaceChildren(String(pc.gameData.gear.armor||0));
+    document.getElementById("ui-gear-weapon-modal")?.replaceChildren(String(pc.gameData.gear.weapon||0));
+    document.getElementById("ui-gear-wand-modal")?.replaceChildren(String(pc.gameData.gear.wand||0));
+    document.getElementById("ui-potion-count-modal")?.replaceChildren(`x${pc.gameData.bag.potion}`);
+    document.getElementById("ui-gpotion-count-modal")?.replaceChildren(`x${pc.gameData.bag.gpotion}`);
   }
 
   function getBestMod(stat1, stat2, stat3 = null) {
@@ -127,12 +135,26 @@ if (root){
   }
 
   function startEncounter(){
+    disableShopButton();
+    const nextBtn = document.getElementById("btn-next");
+    if (nextBtn) {
+      nextBtn.classList.add("hidden");
+      nextBtn.disabled = true;
+    }
+    
     const pcInit = roll() + mod(pc.dex);
     const enInit = roll() + mod(enemy.dex);
     turn = pcInit >= enInit ? "pc" : "enemy";
     log(`Initiative. You ${pcInit} vs ${enemy.name} ${enInit}. ${turn === "pc" ? "You go first." : enemy.name + " goes first."}`);
     updateUI();
     if (turn === "enemy") enemyTurn();
+  }
+
+  function startNextBattle(){
+    stage += 1;
+    enemy = makeEnemy(stage);
+    log(`A new enemy appears: ${enemy.name}. AC ${enemy.ac}. HP ${enemy.hp}.`);
+    startEncounter();
   }
 
   function toHit(attackBonus, targetAC){
@@ -143,7 +165,7 @@ if (root){
   }
 
     function pcAttack(kind){
-    if (enemy.hp <= 0 || pc.hp <= 0) return;
+    if (enemy.hp <= 0 || pc.hp <= 0 || isShopModalOpen()) return;
     
     const isSpell = (kind === "spell");
     const atkBonus = isSpell ? spellAtkBonus() : weaponAtkBonus();
@@ -237,7 +259,7 @@ if (root){
   }
 
   function heal(){
-    if (pc.hp <= 0 || enemy.hp <= 0) return;
+    if (pc.hp <= 0 || enemy.hp <= 0 || isShopModalOpen()) return;
     const h = 4 + roll(1, 8) + Math.max(0, getBestMod(pc.wis, pc.cha));
     pc.hp = Math.min(pc.hp + h, pc.maxHp + sessionHpBonus);
     log(`You heal ${h}. Your HP ${pc.hp}.`);
@@ -269,11 +291,13 @@ if (root){
   }
 
   function promptContinue(){
-    setTimeout(() => {
-      enemy = makeEnemy(stage);
-      log(`A new enemy appears: ${enemy.name}. AC ${enemy.ac}. HP ${enemy.hp}.`);
-      startEncounter();
-    }, 600);
+    enableShopButton();
+    const nextBtn = document.getElementById("btn-next");
+    if (nextBtn) {
+      nextBtn.classList.remove("hidden");
+      nextBtn.disabled = false;
+    }
+    log("Victory! Shop is now available. Click 'Next Battle' when ready.");
   }
 
   function saveGameProfile() {
@@ -383,6 +407,41 @@ if (root){
     if (extraLogMsg) log(extraLogMsg);
   }
 
+  function enableShopButton() {
+    const shopBtn = document.getElementById("btn-shop");
+    if (shopBtn) shopBtn.disabled = false;
+  }
+
+  function disableShopButton() {
+    const shopBtn = document.getElementById("btn-shop");
+    if (shopBtn) shopBtn.disabled = true;
+  }
+
+  function isShopModalOpen() {
+    const modal = document.getElementById("shop-modal");
+    return modal && !modal.classList.contains("hidden");
+  }
+
+  function openShop() {
+    console.log("Opening shop");
+    const modal = document.getElementById("shop-modal");
+    if (modal) {
+      modal.classList.remove("hidden");
+      document.body.classList.add("overflow-hidden");
+      // Focus first focusable element
+      modal.querySelector("button, [href], input, select, textarea")?.focus();
+    }
+  }
+
+  function closeShop() {
+    console.log("Closing shop");
+    const modal = document.getElementById("shop-modal");
+    if (modal) {
+      modal.classList.add("hidden");
+      document.body.classList.remove("overflow-hidden");
+    }
+  }
+
   // Core gear purchase (tiered, replaces previous)
   function buyGear(kind, tier){
     const current = pc.gameData.gear[kind] || 0;
@@ -437,30 +496,50 @@ if (root){
   document.getElementById("btn-spell") ?.addEventListener("click", () => pcAttack("spell"));
   document.getElementById("btn-heal")  ?.addEventListener("click", heal);
   document.getElementById("btn-reset") ?.addEventListener("click", resetProgress);
+  document.getElementById("btn-next")?.addEventListener("click", startNextBattle);
+  document.getElementById("btn-shop")?.addEventListener("click", openShop);
 
   // Shop button event listeners
-  // Core tiers
-  document.querySelectorAll(".shop-btn[data-buy='armor']").forEach(b => b.addEventListener("click", e => buyGear("armor", Number(e.currentTarget.dataset.tier))));
-  document.querySelectorAll(".shop-btn[data-buy='weapon']").forEach(b => b.addEventListener("click", e => buyGear("weapon", Number(e.currentTarget.dataset.tier))));
-  document.querySelectorAll(".shop-btn[data-buy='wand']").forEach(b => b.addEventListener("click", e => buyGear("wand", Number(e.currentTarget.dataset.tier))));
+  function setupShopEventListeners() {
+    // Core tiers
+    document.querySelectorAll(".shop-btn[data-buy='armor']").forEach(b => b.addEventListener("click", e => buyGear("armor", Number(e.currentTarget.dataset.tier))));
+    document.querySelectorAll(".shop-btn[data-buy='weapon']").forEach(b => b.addEventListener("click", e => buyGear("weapon", Number(e.currentTarget.dataset.tier))));
+    document.querySelectorAll(".shop-btn[data-buy='wand']").forEach(b => b.addEventListener("click", e => buyGear("wand", Number(e.currentTarget.dataset.tier))));
 
-  // Consumables
-  document.querySelector(".shop-btn[data-buy='potion']")?.addEventListener("click", ()=>buyConsumable("potion"));
-  document.querySelector(".shop-btn[data-buy='gpotion']")?.addEventListener("click", ()=>buyConsumable("gpotion"));
-  document.getElementById("use-potion")?.addEventListener("click", usePotion);
-  document.getElementById("use-gpotion")?.addEventListener("click", useGPotion);
+    // Consumables
+    document.querySelector(".shop-btn[data-buy='potion']")?.addEventListener("click", ()=>buyConsumable("potion"));
+    document.querySelector(".shop-btn[data-buy='gpotion']")?.addEventListener("click", ()=>buyConsumable("gpotion"));
+    document.getElementById("use-potion-modal")?.addEventListener("click", usePotion);
+    document.getElementById("use-gpotion-modal")?.addEventListener("click", useGPotion);
 
-  // Meta
-  document.querySelector(".shop-btn[data-buy='meta-battleTraining']")?.addEventListener("click", ()=>buyMeta("battleTraining"));
-  document.querySelector(".shop-btn[data-buy='meta-arcaneStudy']")?.addEventListener("click", ()=>buyMeta("arcaneStudy"));
-  document.querySelector(".shop-btn[data-buy='meta-blessedCharm']")?.addEventListener("click", ()=>buyMeta("blessedCharm"));
-  document.querySelector(".shop-btn[data-buy='meta-greedyPouch']")?.addEventListener("click", ()=>buyMeta("greedyPouch"));
+    // Meta
+    document.querySelector(".shop-btn[data-buy='meta-battleTraining']")?.addEventListener("click", ()=>buyMeta("battleTraining"));
+    document.querySelector(".shop-btn[data-buy='meta-arcaneStudy']")?.addEventListener("click", ()=>buyMeta("arcaneStudy"));
+    document.querySelector(".shop-btn[data-buy='meta-blessedCharm']")?.addEventListener("click", ()=>buyMeta("blessedCharm"));
+    document.querySelector(".shop-btn[data-buy='meta-greedyPouch']")?.addEventListener("click", ()=>buyMeta("greedyPouch"));
+  }
+
+  // Set up shop event listeners immediately
+  setupShopEventListeners();
+
+  // Set up modal close handlers
+  document.getElementById("shop-close")?.addEventListener("click", closeShop);
+  document.getElementById("shop-backdrop")?.addEventListener("click", closeShop);
+  
+  // ESC key to close modal
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape" && isShopModalOpen()) {
+      closeShop();
+    }
+  });
 
   // Apply Blessed Charm effect at start
   if (sessionHpBonus > 0) {
     pc.hp = Math.min(pc.hp + sessionHpBonus, pc.maxHp + sessionHpBonus);
   }
 
+  // Start with shop available (no enemy yet)
+  enableShopButton();
   startEncounter();
 }
 
