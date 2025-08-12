@@ -93,7 +93,7 @@ if (root){
     document.getElementById("ui-gear-weapon")?.replaceChildren(String(pc.gameData.gear.weapon||0));
     document.getElementById("ui-gear-wand")?.replaceChildren(String(pc.gameData.gear.wand||0));
     document.getElementById("ui-potion-count")?.replaceChildren(`x${pc.gameData.bag.potion}`);
-    document.getElementById("ui-gpotion-count")?.replaceChildren(`x${pc.gameData.bag.gpotion}`);
+    document.getElementById("ui-gpotion-count-modal")?.replaceChildren(`x${pc.gameData.bag.gpotion}`);
     
     // Shop readouts (modal)
     document.getElementById("ui-gold-modal")?.replaceChildren(String(pc.gold));
@@ -102,6 +102,9 @@ if (root){
     document.getElementById("ui-gear-wand-modal")?.replaceChildren(String(pc.gameData.gear.wand||0));
     document.getElementById("ui-potion-count-modal")?.replaceChildren(`x${pc.gameData.bag.potion}`);
     document.getElementById("ui-gpotion-count-modal")?.replaceChildren(`x${pc.gameData.bag.gpotion}`);
+    
+    // Update shop button states
+    updateShopButtonStates();
   }
 
   function getBestMod(stat1, stat2, stat3 = null) {
@@ -422,12 +425,76 @@ if (root){
     return modal && !modal.classList.contains("hidden");
   }
 
+  function updateShopButtonStates() {
+    // Update gear buttons based on current tier
+    const armorTier = pc.gameData.gear.armor || 0;
+    const weaponTier = pc.gameData.gear.weapon || 0;
+    const wandTier = pc.gameData.gear.wand || 0;
+    
+    // Armor buttons
+    document.querySelectorAll('[data-buy="armor"]').forEach(btn => {
+      const tier = parseInt(btn.dataset.tier);
+      if (tier <= armorTier) {
+        btn.disabled = true;
+        btn.classList.remove('bg-blue-600', 'hover:bg-blue-700');
+        btn.classList.add('bg-gray-400', 'cursor-not-allowed');
+      } else {
+        btn.disabled = false;
+        btn.classList.remove('bg-gray-400', 'cursor-not-allowed');
+        btn.classList.add('bg-blue-600', 'hover:bg-blue-700');
+      }
+    });
+    
+    // Weapon buttons
+    document.querySelectorAll('[data-buy="weapon"]').forEach(btn => {
+      const tier = parseInt(btn.dataset.tier);
+      if (tier <= weaponTier) {
+        btn.disabled = true;
+        btn.classList.remove('bg-red-600', 'hover:bg-red-700');
+        btn.classList.add('bg-gray-400', 'cursor-not-allowed');
+      } else {
+        btn.disabled = false;
+        btn.classList.remove('bg-gray-400', 'cursor-not-allowed');
+        btn.classList.add('bg-red-600', 'hover:bg-red-700');
+      }
+    });
+    
+    // Wand buttons
+    document.querySelectorAll('[data-buy="wand"]').forEach(btn => {
+      const tier = parseInt(btn.dataset.tier);
+      if (tier <= wandTier) {
+        btn.disabled = true;
+        btn.classList.remove('bg-purple-600', 'hover:bg-purple-700');
+        btn.classList.add('bg-gray-400', 'cursor-not-allowed');
+      } else {
+        btn.disabled = false;
+        btn.classList.remove('bg-gray-400', 'cursor-not-allowed');
+        btn.classList.add('bg-purple-600', 'hover:bg-purple-700');
+      }
+    });
+    
+    // Meta upgrade buttons
+    document.querySelectorAll('[data-buy^="meta-"]').forEach(btn => {
+      const metaType = btn.dataset.buy.replace('meta-', '');
+      if (pc.gameData.meta[metaType]) {
+        btn.disabled = true;
+        btn.classList.remove('bg-yellow-600', 'hover:bg-yellow-700');
+        btn.classList.add('bg-gray-400', 'cursor-not-allowed');
+      } else {
+        btn.disabled = false;
+        btn.classList.remove('bg-gray-400', 'cursor-not-allowed');
+        btn.classList.add('bg-yellow-600', 'hover:bg-yellow-700');
+      }
+    });
+  }
+
   function openShop() {
     const modal = document.getElementById("shop-modal");
     if (modal) {
       modal.classList.remove("hidden");
       document.body.classList.add("overflow-hidden");
       modal.querySelector("button, [href], input, select, textarea")?.focus();
+      updateShopButtonStates();
     }
   }
 
@@ -442,7 +509,7 @@ if (root){
   // Core gear purchase (tiered, replaces previous)
   function buyGear(kind, tier){
     const current = pc.gameData.gear[kind] || 0;
-    if (tier <= current) return log(`You already have ${kind} +${current}.`);
+    if (tier <= current) return log(`You already have ${kind} +${tier}.`);
     if (tier > 3) return;
     const cost = PRICES[kind][tier];
     if (!canAfford(cost)) return log(`Not enough gold for ${kind} +${tier}.`);
@@ -450,6 +517,7 @@ if (root){
     spend(cost);
     pc.gameData.gear[kind] = tier;
     saveProgress(`Purchased ${kind} +${tier}.`);
+    updateShopButtonStates();
   }
 
   // Consumables
@@ -487,6 +555,7 @@ if (root){
     pc.gameData.meta[key] = true;
     if (key === "blessedCharm") sessionHpBonus = 10; // affect current run too
     saveProgress(`Unlocked ${key}.`);
+    updateShopButtonStates();
   }
 
   document.getElementById("btn-attack")?.addEventListener("click", () => pcAttack("weapon"));
