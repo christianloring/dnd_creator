@@ -1,0 +1,35 @@
+<!-- app/views/encounters/show.html.erb -->
+<div class="flex flex-col items-center justify-start min-h-screen bg-gray-50 py-8">
+  <h1 class="text-2xl font-bold mb-4 text-center">Encounter Result</h1>
+
+  <p class="mb-2 text-lg text-center">XP budget: <%= @result.total_xp_budget %></p>
+
+  <div class="overflow-x-auto w-full max-w-3xl mt-6">
+    <table class="min-w-full border border-gray-300 rounded-lg shadow bg-white">
+      <thead>
+        <tr class="bg-gray-100">
+          <th class="px-4 py-2 border-b border-r border-gray-300">Name</th>
+          <th class="px-4 py-2 border-b border-r border-gray-300">CR</th>
+          <th class="px-4 py-2 border-b border-r border-gray-300">Count</th>
+          <th class="px-4 py-2 border-b border-r border-gray-300">Tags</th>
+          <th class="px-4 py-2 border-b border-r border-gray-300">XP each</th>
+          <th class="px-4 py-2 border-b border-gray-300">XP total</th>
+        </tr>
+      </thead>
+      <tbody>
+        <% @result.monsters.each do |m| %>
+          <tr class="even:bg-gray-50">
+            <td class="px-4 py-2 border-b border-r border-gray-200"><%= m.name %></td>
+            <td class="px-4 py-2 border-b border-r border-gray-200"><%= m.cr %></td>
+            <td class="px-4 py-2 border-b border-r border-gray-200"><%= m.count %></td>
+            <td class="px-4 py-2 border-b border-r border-gray-200"><%= m.tags.join(", ") %></td>
+            <td class="px-4 py-2 border-b border-r border-gray-200"><%= m.xp_each %></td>
+            <td class="px-4 py-2 border-b border-gray-200"><%= m.xp_total %></td>
+          </tr>
+        <% end %>
+      </tbody>
+    </table>
+  </div>
+
+  <%= link_to "Create another encounter", new_encounter_path, class: "mt-8 px-6 py-2 bg-blue-600 text-white rounded shadow hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 transition" %>
+</div>

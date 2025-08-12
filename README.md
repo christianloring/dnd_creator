@@ -39,13 +39,13 @@ bin/setup
 - [x] Authentication
 - [x] User creation
 - [X] Character creation
-- [ ] Simple combat simulator
+- [X] Simple combat simulator
 - [x] RSpec testing
 - [x] Documentation
 - [x] CI/CD
 - [ ] Deployment
 - [X] Tailwind integration
-- [ ] Image uploading (character portraits)
+- [X] Image uploading (character portraits)
 
 ### ⚔️ Encounter Builder
 - [ ] Use D&D’s new encounter-building EXP guide

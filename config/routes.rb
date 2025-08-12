@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   resources :passwords, param: :token
   resource  :session,      only: %i[new create destroy]
   resource  :registration, only: %i[new create]
+  resource :encounter, only: [ :new, :create, :show ]
 
   resources :characters do
     member do
