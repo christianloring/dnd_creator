@@ -1,0 +1,31 @@
+<!-- app/views/encounters/index.html.erb -->
+<div class="flex flex-col items-center justify-start min-h-screen bg-gray-50 py-8">
+    <h1 class="text-2xl font-bold mb-4 text-center">Encounters</h1>
+
+    <div class="overflow-x-auto w-full max-w-3xl mt-6">
+        <table class="min-w-full border border-gray-300 rounded-lg shadow bg-white">
+            <thead>
+                <tr class="bg-gray-100">
+                    <th class="px-4 py-2 border-b border-r border-gray-300">Name</th>
+                    <th class="px-4 py-2 border-b border-r border-gray-300">XP Budget</th>
+                    <th class="px-4 py-2 border-b border-gray-300">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% @encounters.each do |encounter| %>
+                    <tr class="even:bg-gray-50">
+                        <td class="px-4 py-2 border-b border-r border-gray-200"><%= encounter.name %></td>
+                        <td class="px-4 py-2 border-b border-r border-gray-200"><%= encounter.total_xp_budget %></td>
+                        <td class="px-4 py-2 border-b border-gray-200">
+                            <%= link_to "Show", encounter_path(encounter), class: "text-blue-600 hover:underline mr-2" %>
+                            <%= link_to "Edit", edit_encounter_path(encounter), class: "text-yellow-600 hover:underline mr-2" %>
+                            <%= link_to "Delete", encounter_path(encounter), method: :delete, data: { confirm: "Are you sure?" }, class: "text-red-600 hover:underline" %>
+                        </td>
+                    </tr>
+                <% end %>
+            </tbody>
+        </table>
+    </div>
+
+    <%= link_to "Create new encounter", new_encounter_path, class: "mt-8 px-6 py-2 bg-blue-600 text-white rounded shadow hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 transition" %>
+</div>

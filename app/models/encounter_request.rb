@@ -12,5 +12,5 @@ class EncounterRequest
   validates :party_level, inclusion: { in: 1..20 }
   validates :party_size, inclusion: { in: 1..8 }
   validates :shape, inclusion: { in: %w[solo_boss two_bosses boss_minions swarm custom] }
-  validates :difficulty, inclusion: { in: %w[easy medium hard deadly] }
+  validates :difficulty, inclusion: { in: %w[easy medium hard ] }
 end

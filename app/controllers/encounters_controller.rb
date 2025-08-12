@@ -1,4 +1,8 @@
 class EncountersController < ApplicationController
+  def index
+    @encounters = Encounter.where(user_id: current_user.id)
+  end
+
   def new
     @request = EncounterRequest.new(party_level: 5, party_size: 4, shape: "boss_minions", difficulty: "medium")
   end
