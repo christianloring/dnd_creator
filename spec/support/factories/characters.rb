@@ -40,14 +40,14 @@ FactoryBot.define do
       subclass { "Pathfinder" }
     end
 
-    trait :rogue do
-      character_class { "Rogue" }
-      subclass { "Thief" }
-    end
-
     trait :sage do
       character_class { "Sage" }
       subclass { "School of Knowledge" }
+    end
+
+    trait :fighter do
+      character_class { "Fighter" }
+      subclass { "Champion" }
     end
 
     trait :ranger do
@@ -68,6 +68,22 @@ FactoryBot.define do
     trait :artificer do
       character_class { "Artificer" }
       subclass { "Alchemist" }
+    end
+
+    trait :cleric do
+      character_class { "Cleric" }
+      subclass { "Life Domain" }
+    end
+
+    trait :rogue do
+      character_class { "Rogue" }
+      subclass { "Thief" }
+    end
+  end
+
+  factory :character_with_game_profile, parent: :character do
+    after(:create) do |character|
+      create(:game_profile, character: character)
     end
   end
 end
