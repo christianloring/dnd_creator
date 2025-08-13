@@ -94,7 +94,6 @@ function initializeGame() {
     document.getElementById("ui-gear-armor")?.replaceChildren(String(pc.gameData.gear.armor||0));
     document.getElementById("ui-gear-weapon")?.replaceChildren(String(pc.gameData.gear.weapon||0));
     document.getElementById("ui-gear-wand")?.replaceChildren(String(pc.gameData.gear.wand||0));
-    document.getElementById("ui-potion-count")?.replaceChildren(`x${pc.gameData.bag.potion}`);
     document.getElementById("ui-gpotion-count-modal")?.replaceChildren(`x${pc.gameData.bag.gpotion}`);
     
     // Shop readouts (modal)
@@ -594,12 +593,6 @@ function initializeGame() {
   document.getElementById("shop-close")?.addEventListener("click", closeShop);
   document.getElementById("shop-backdrop")?.addEventListener("click", closeShop);
   
-  // ESC key to close modal
-  document.addEventListener("keydown", (e) => {
-    if (e.key === "Escape" && isShopModalOpen()) {
-      closeShop();
-    }
-  });
 
   // Apply Blessed Charm effect at start
   if (sessionHpBonus > 0) {

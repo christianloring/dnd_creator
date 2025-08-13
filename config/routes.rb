@@ -1,11 +1,4 @@
 Rails.application.routes.draw do
-  get "npcs/index"
-  get "npcs/show"
-  get "npcs/new"
-  get "npcs/create"
-  get "npcs/edit"
-  get "npcs/update"
-  get "npcs/destroy"
   root "home#index"
 
   resources :passwords, param: :token
