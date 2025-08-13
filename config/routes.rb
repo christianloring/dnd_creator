@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   resources :passwords, param: :token
   resource  :session,      only: %i[new create destroy]
   resource  :registration, only: %i[new create]
+  resources :encounters, only: [ :new, :create, :show, :index, :destroy ]
 
   resources :characters do
     member do
@@ -27,6 +28,10 @@ Rails.application.routes.draw do
   end
 
   get "dashboard", to: "home#dashboard", as: :dashboard
+
+  # Legal pages
+  get "privacy", to: "legal#privacy", as: :privacy
+  get "terms", to: "legal#terms", as: :terms
 
   # Health check endpoint
   get "up" => "rails/health#show", as: :rails_health_check
