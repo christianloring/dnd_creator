@@ -1,35 +1,80 @@
-# D&D Character Manager and Combat Simulator
+# D&D Character Manager
 
-A full-stack Rails 8 web app for managing Dungeons & Dragons characters, encounters, loot, and more — with simple combat simulation and administrative tools.
+A Rails web app for managing fantasy characters and running simple combat encounters. Built as a personal project to learn Rails 8, modern JavaScript, and game development concepts.
 
-## 🧠 Project Goals
+## Features
 
-Build a feature-rich application that supports the following:
+- **Character Management**: Create and manage fantasy characters with stats and classes
+- **Combat Simulator**: Turn-based combat with progression and shop system
+- **Encounter Builder**: Generate balanced encounters for different party sizes
+- **NPC Generator**: Create random NPCs with personalities and backgrounds
+- **Campaign Notes**: Take notes for characters and campaigns
 
-- Scalable Rails architecture with Tailwind CSS and component-driven views
-- Player-facing tools like character sheets, encounter generation, loot tracking
-- Game master (DM) tools like NPC builders, dice rolling, and combat simulation
-- Production-grade practices like CI/CD, atomic PRs, RSpec test coverage, and deployment
+## Tech Stack
 
----
+- **Backend**: Rails 8, Ruby 3.4, PostgreSQL
+- **Frontend**: Tailwind CSS, Stimulus.js, vanilla JavaScript
+- **Testing**: RSpec, Capybara
+- **Deployment**: Docker, Kamal
 
-## 🚀 Getting Started
-
-### Prerequisites
-
-- Ruby 3.4.x
-- Rails 8.x
-- PostgreSQL
-- Node + Yarn
-- ImageMagick (for ActiveStorage previews, optional)
-
-### Setup
+## Quick Start
 
 ```bash
 git clone https://github.com/christianloring/dnd_creator.git
 cd dnd_creator
 bundle install
 bin/setup
+bin/dev
+```
+
+Visit `http://localhost:3333` to get started.
+
+## Project Structure
+
+```
+app/
+├── models/          # Character, GameProfile, Encounter, NPC
+├── controllers/     # RESTful controllers for all resources
+├── services/        # EncounterBuilder, MonsterRepository
+├── javascript/      # Combat simulator (game.js)
+└── views/          # ERB templates with Tailwind
+
+spec/               # RSpec tests with good coverage
+docs/              # API and deployment docs
+```
+
+## Key Components
+
+### Character System
+- Fantasy classes (Warrior, Mage, Scout, etc.) with subclasses
+- Ability scores with automatic modifier calculations
+- Game profiles for tracking progression and combat stats
+
+### Combat Simulator
+- Turn-based combat in vanilla JavaScript
+- Shop system for purchasing gear and items
+- Experience and leveling progression
+- Persistent game state via AJAX
+
+### Encounter Builder
+- AI-powered encounter generation
+- Difficulty scaling based on party level/size
+- Different encounter types (solo boss, boss + minions, swarm)
+
+## Testing
+
+```bash
+bundle exec rspec                    # Run all tests
+bundle exec rspec spec/system/       # System tests
+bundle exec rspec --format progress  # Progress format
+```
+
+## Deployment
+
+The app is configured for deployment with Kamal:
+
+```bash
+kamal deploy
 ```
 ---
 
@@ -89,3 +134,7 @@ bin/setup
 - [ ] API Development - RESTful API with proper documentation
 - [ ] Background Jobs - Sidekiq for heavy processing (PDF generation, etc.)
 - [ ] File Upload/Management - S3 integration for images/documents
+
+---
+
+This is a personal project built for learning and portfolio purposes. The fantasy classes and mechanics are inspired by tabletop RPGs but use original content to avoid trademark issues.
