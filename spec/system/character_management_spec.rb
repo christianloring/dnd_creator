@@ -147,7 +147,7 @@ RSpec.describe 'Character Management', type: :system do
       expect(page).to have_link('Play Battle')
     end
 
-            it 'prevents access to other users characters' do
+    it 'prevents access to other users characters' do
       skip "TODO: Access control behavior needs investigation"
       other_user = create(:user)
       other_character = create(:character, :warrior, user: other_user)

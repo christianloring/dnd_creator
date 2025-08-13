@@ -39,9 +39,14 @@ module SystemTestHelpers
   end
 
   def defeat_enemy
-    until find('#ui-ehp').text.to_i <= 0
+    loop do
+      break unless page.has_css?('#ui-ehp')
+      enemy_hp = find('#ui-ehp').text.to_i
+      break if enemy_hp <= 0
+
       click_button 'Attack'
-      sleep(0.1)
+      # Wait for attack animation using Capybara's waiting mechanism
+      expect(page).to have_content('attacks', wait: 2)
     end
   end
 

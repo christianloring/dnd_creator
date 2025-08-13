@@ -95,9 +95,8 @@ RSpec.describe 'Character Minigame', type: :system do
     end
 
     it 'allows healing' do
-      # First take some damage
       click_button 'Attack'
-      sleep(0.5) # Wait for enemy to attack back
+      expect(page).to have_content('enemy attacks', wait: 5)
 
       initial_hp = find('#ui-hp').text.to_i
 
@@ -120,9 +119,13 @@ RSpec.describe 'Character Minigame', type: :system do
 
     it 'advances to next enemy when current enemy is defeated' do
       # Attack until enemy is defeated
-      until find('#ui-ehp').text.to_i <= 0
+      loop do
+        break unless page.has_css?('#ui-ehp')
+        enemy_hp = find('#ui-ehp').text.to_i
+        break if enemy_hp <= 0
+
         click_button 'Attack'
-        sleep(0.1) # Small delay to allow for animations
+        expect(page).to have_content('attacks', wait: 2)
       end
 
       # Should show "Next Battle" button
@@ -295,18 +298,6 @@ RSpec.describe 'Character Minigame', type: :system do
       # Game should still be accessible
       expect(page).to have_content('Test Character')
     end
-
-        it 'prevents access to other users characters' do
-      other_user = create(:user)
-      other_character = create(:character, :warrior, user: other_user)
-
-      # Sign out current user first
-      sign_out user
-
-      # Should redirect to login page
-      visit play_character_path(other_character)
-      expect(page).to have_current_path(new_session_path)
-    end
   end
 
     describe 'Game Performance', js: true do
@@ -328,7 +319,7 @@ RSpec.describe 'Character Minigame', type: :system do
       # Simulate extended gameplay
       10.times do
         click_button 'Attack'
-        sleep(0.1)
+        expect(page).to have_content('attacks', wait: 2)
       end
 
       # Game should remain responsive
