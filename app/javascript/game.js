@@ -7,6 +7,7 @@ function rollExpr(expr){
   return roll(n, d);
 }
 
+// Function to initialize the game
 function initializeGame() {
   const root = document.getElementById("game-root");
   if (root){
@@ -621,4 +622,27 @@ if (document.readyState === 'loading') {
   // DOM is already ready, try again after a short delay
   setTimeout(initializeGame, 10);
 }
+
+// Additional retry mechanism - try multiple times with increasing delays
+let retryCount = 0;
+const maxRetries = 10;
+
+function retryInitialize() {
+  retryCount++;
+  if (retryCount <= maxRetries) {
+    setTimeout(() => {
+      const root = document.getElementById("game-root");
+      if (!root) {
+        retryInitialize();
+      } else {
+        initializeGame();
+      }
+    }, retryCount * 100); // Increasing delay: 100ms, 200ms, 300ms, etc.
+  } else {
+    console.error("Failed to find game-root element after all retries");
+  }
+}
+
+// Start retry mechanism after initial attempts
+setTimeout(retryInitialize, 50);
 
