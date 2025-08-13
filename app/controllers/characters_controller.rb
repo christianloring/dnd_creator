@@ -16,7 +16,7 @@ class CharactersController < ApplicationController
     if @character.save
       redirect_to @character, notice: "Character created successfully."
     else
-      render :new, status: :unprocessable_entity
+              render :new, status: :unprocessable_content
     end
   end
 
@@ -26,7 +26,7 @@ class CharactersController < ApplicationController
     if @character.update(character_params)
       redirect_to @character, notice: "Character updated successfully."
     else
-      render :edit, status: :unprocessable_entity
+              render :edit, status: :unprocessable_content
     end
   end
 
@@ -50,7 +50,7 @@ class CharactersController < ApplicationController
         gold: @game_profile.gold, data: @game_profile.data
       } }
     else
-      render json: { success: false, errors: @game_profile.errors.full_messages }, status: :unprocessable_entity
+              render json: { success: false, errors: @game_profile.errors.full_messages }, status: :unprocessable_content
     end
   end
 

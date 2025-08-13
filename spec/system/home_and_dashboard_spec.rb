@@ -67,7 +67,7 @@ RSpec.describe 'Home and Dashboard', type: :system do
 
       visit dashboard_path
 
-      expect(page).to have_content('2') # Total users
+      expect(page).to have_content(User.count)
       expect(page).to have_content('Characters aren\'t made yet')
     end
 
