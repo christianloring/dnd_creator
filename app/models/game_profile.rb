@@ -39,7 +39,7 @@ class GameProfile < ApplicationRecord
   end
 
   def reset_progress
-    self.level = character.level  # Start at character's original level
+    self.level = character.level
     self.exp = 0
     self.max_hp = base_max_hp || 10
     self.hp_current = max_hp
@@ -65,7 +65,7 @@ class GameProfile < ApplicationRecord
   private
 
   def set_defaults
-    return unless character # Skip if character is nil (during validation tests)
+    return unless character
 
     self.level ||= character.level || 1
     self.exp ||= 0

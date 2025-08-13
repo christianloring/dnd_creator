@@ -3,14 +3,19 @@ class NpcsController < ApplicationController
 
   def index
     @npcs = current_user.npcs.order(created_at: :desc)
+    add_breadcrumb "NPCs", npcs_path, active: true
   end
 
   def show
+    add_breadcrumb "NPCs", npcs_path
+    add_breadcrumb @npc.name, npc_path(@npc), active: true
   end
 
   def new
     @npc = current_user.npcs.build
     @categories = Npc::CATEGORIES
+    add_breadcrumb "NPCs", npcs_path
+    add_breadcrumb "New NPC", new_npc_path, active: true
   end
 
   def create
@@ -31,6 +36,9 @@ class NpcsController < ApplicationController
 
   def edit
     @categories = Npc::CATEGORIES
+    add_breadcrumb "NPCs", npcs_path
+    add_breadcrumb @npc.name, npc_path(@npc)
+    add_breadcrumb "Edit", edit_npc_path(@npc), active: true
   end
 
   def update
@@ -51,6 +59,8 @@ class NpcsController < ApplicationController
     @npc = Npc.randomize
     @npc.user = current_user
     @categories = Npc::CATEGORIES
+    add_breadcrumb "NPCs", npcs_path
+    add_breadcrumb "Random NPC", randomize_npcs_path, active: true
     render :new
   end
 

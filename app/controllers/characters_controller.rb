@@ -3,12 +3,18 @@ class CharactersController < ApplicationController
 
   def index
     @characters = current_user.characters
+    add_breadcrumb "Characters", characters_path, active: true
   end
 
-  def show; end
+  def show
+    add_breadcrumb "Characters", characters_path
+    add_breadcrumb @character.name, character_path(@character), active: true
+  end
 
   def new
     @character = current_user.characters.build
+    add_breadcrumb "Characters", characters_path
+    add_breadcrumb "New Character", new_character_path, active: true
   end
 
   def create
@@ -20,7 +26,11 @@ class CharactersController < ApplicationController
     end
   end
 
-  def edit; end
+  def edit
+    add_breadcrumb "Characters", characters_path
+    add_breadcrumb @character.name, character_path(@character)
+    add_breadcrumb "Edit", edit_character_path(@character), active: true
+  end
 
   def update
     if @character.update(character_params)
@@ -37,6 +47,9 @@ class CharactersController < ApplicationController
 
   def play
     @game_profile = @character.game_profile || @character.create_game_profile!
+    add_breadcrumb "Characters", characters_path
+    add_breadcrumb @character.name, character_path(@character)
+    add_breadcrumb "Play", play_character_path(@character), active: true
   end
 
   def update_game_profile

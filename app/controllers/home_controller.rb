@@ -5,7 +5,8 @@ class HomeController < ApplicationController
   end
 
   def dashboard
+    add_breadcrumb "Dashboard", dashboard_path, active: true
     @user_count = User.count
-    # @character_count = Character.count
+    @character_count = Character.count
   end
 end
