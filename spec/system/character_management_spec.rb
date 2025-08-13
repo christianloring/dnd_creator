@@ -65,16 +65,16 @@ RSpec.describe 'Character Management', type: :system do
 
   describe 'Character Listing' do
     let!(:character1) { create(:character, :ranger, user: user, name: 'Aragorn') }
-    let!(:character2) { create(:character, :fighter, user: user, name: 'Legolas') }
+    let!(:character2) { create(:character, :warrior, user: user, name: 'Legolas') }
 
-        it 'displays all user characters' do
+    it 'displays all user characters' do
       visit characters_path
 
       expect(page).to have_content('Aragorn')
       expect(page).to have_content('Legolas')
     end
 
-        it 'shows character statistics' do
+    it 'shows character statistics' do
       visit characters_path
 
       # Characters are displayed with their names
@@ -82,17 +82,17 @@ RSpec.describe 'Character Management', type: :system do
       expect(page).to have_content('Legolas')
     end
 
-        it 'provides links to view, edit, and delete characters' do
+    it 'provides links to view, edit, and delete characters' do
       visit characters_path
 
-      expect(page).to have_link('Show', href: character_path(character1))
+      expect(page).to have_link('View', href: character_path(character1))
       expect(page).to have_link('Edit', href: edit_character_path(character1))
       expect(page).to have_link('Delete', href: character_path(character1))
     end
 
     it 'only shows characters belonging to the current user' do
       other_user = create(:user)
-      create(:character, :fighter, user: other_user, name: 'Other Character')
+              create(:character, :warrior, user: other_user, name: 'Other Character')
 
       visit characters_path
 
@@ -104,7 +104,7 @@ RSpec.describe 'Character Management', type: :system do
 
   describe 'Character Details' do
     let(:character) do
-      create(:character, :fighter,
+      create(:character, :warrior,
         user: user,
         name: 'Gimli',
         species: 'Dwarf',
@@ -124,7 +124,7 @@ RSpec.describe 'Character Management', type: :system do
       visit character_path(character)
 
       expect(page).to have_content('Gimli')
-      expect(page).to have_content('Fighter')
+      expect(page).to have_content('Warrior')
       expect(page).to have_content('Dwarf')
       expect(page).to have_content('8')
       expect(page).to have_content('STR: 16')
@@ -150,7 +150,7 @@ RSpec.describe 'Character Management', type: :system do
             it 'prevents access to other users characters' do
       skip "TODO: Access control behavior needs investigation"
       other_user = create(:user)
-      other_character = create(:character, :fighter, user: other_user)
+      other_character = create(:character, :warrior, user: other_user)
 
       # Should redirect to login page
       visit character_path(other_character)
@@ -159,7 +159,7 @@ RSpec.describe 'Character Management', type: :system do
   end
 
   describe 'Character Editing' do
-    let(:character) { create(:character, :fighter, user: user, name: 'Original Name', level: 1) }
+    let(:character) { create(:character, :warrior, user: user, name: 'Original Name', level: 1) }
 
     it 'allows editing character information' do
       visit edit_character_path(character)
@@ -201,7 +201,7 @@ RSpec.describe 'Character Management', type: :system do
   end
 
   describe 'Character Deletion' do
-    let!(:character) { create(:character, :fighter, user: user, name: 'To Be Deleted') }
+    let!(:character) { create(:character, :warrior, user: user, name: 'To Be Deleted') }
 
     it 'allows deleting a character' do
       skip "TODO: Requires JavaScript for confirmation dialog"
@@ -223,7 +223,7 @@ RSpec.describe 'Character Management', type: :system do
             it 'prevents deletion of other users characters' do
       skip "TODO: Access control behavior needs investigation"
       other_user = create(:user)
-      other_character = create(:character, :fighter, user: other_user)
+      other_character = create(:character, :warrior, user: other_user)
 
       # Should redirect to login page
       delete character_path(other_character)

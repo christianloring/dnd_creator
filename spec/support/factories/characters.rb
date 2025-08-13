@@ -45,11 +45,6 @@ FactoryBot.define do
       subclass { "School of Knowledge" }
     end
 
-    trait :fighter do
-      character_class { "Fighter" }
-      subclass { "Champion" }
-    end
-
     trait :ranger do
       character_class { "Ranger" }
       subclass { "Hunter" }
@@ -68,11 +63,6 @@ FactoryBot.define do
     trait :artificer do
       character_class { "Artificer" }
       subclass { "Alchemist" }
-    end
-
-    trait :cleric do
-      character_class { "Cleric" }
-      subclass { "Life Domain" }
     end
 
     trait :rogue do

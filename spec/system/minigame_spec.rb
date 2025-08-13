@@ -7,7 +7,7 @@ RSpec.describe 'Character Minigame', type: :system do
 
   let(:user) { create(:user) }
   let(:character) do
-    create(:character, :fighter,
+    create(:character, :warrior,
       user: user,
       name: 'Test Character',
       level: 5,
@@ -298,7 +298,7 @@ RSpec.describe 'Character Minigame', type: :system do
 
         it 'prevents access to other users characters' do
       other_user = create(:user)
-      other_character = create(:character, :fighter, user: other_user)
+      other_character = create(:character, :warrior, user: other_user)
 
       # Sign out current user first
       sign_out user
@@ -351,7 +351,7 @@ RSpec.describe 'Character Minigame', type: :system do
 
     it 'prevents access to other users characters' do
       other_user = create(:user)
-      other_character = create(:character, :fighter, user: other_user)
+      other_character = create(:character, :warrior, user: other_user)
 
       # Sign out current user first
       sign_out user

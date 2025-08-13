@@ -13,7 +13,7 @@ module SystemTestHelpers
   def create_character_with_stats(user, stats = {})
     default_stats = {
       name: 'Test Character',
-      character_class: 'Fighter',
+      character_class: 'Warrior',
       species: 'Human',
       level: 5,
       strength: 16,

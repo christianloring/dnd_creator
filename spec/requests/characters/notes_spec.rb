@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe "Characters::Notes", type: :request do
   let(:user) { create(:user) }
-  let(:character) { create(:character, :fighter, user: user) }
+  let(:character) { create(:character, :warrior, user: user) }
 
   before do
     # Simulate authentication for request specs
