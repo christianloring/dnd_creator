@@ -15,7 +15,7 @@
         <div class="mb-4">
             <%= form.label :character_class %><br>
             <%= form.select :character_class,
-                options_for_select(Character::DND_CLASSES, selected: @character.character_class),
+                options_for_select(Character::FANTASY_CLASSES, selected: @character.character_class),
                 { prompt: "Choose a class" },
                 { class: "border rounded px-4 py-2 w-full", id: "character_class_select" } %>
         </div>

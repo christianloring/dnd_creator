@@ -1,6 +1,6 @@
-# D&D Character Manager and Combat Simulator
+# TTRPG Character Manager and Combat Simulator
 
-A full-stack Rails 8 web app for managing Dungeons & Dragons characters, encounters, loot, and more — with simple combat simulation and administrative tools.
+A full-stack Rails 8 web app for managing tabletop RPG characters, encounters, loot, and more — with simple combat simulation and administrative tools.
 
 ## 🧠 Project Goals
 
@@ -8,7 +8,7 @@ Build a feature-rich application that supports the following:
 
 - Scalable Rails architecture with Tailwind CSS and component-driven views
 - Player-facing tools like character sheets, encounter generation, loot tracking
-- Game master (DM) tools like NPC builders, dice rolling, and combat simulation
+- Game master (GM) tools like NPC builders, dice rolling, and combat simulation
 - Production-grade practices like CI/CD, atomic PRs, RSpec test coverage, and deployment
 
 ---
@@ -48,7 +48,7 @@ bin/setup
 - [ ] Image uploading (character portraits)
 
 ### ⚔️ Encounter Builder
-- [ ] Use D&D’s new encounter-building EXP guide
+- [ ] Use modern TTRPG encounter-building EXP guide
 - [ ] Generate random fights using monsters that match EXP budget
 - [ ] Create different fight types (e.g. solo boss, boss + minions)
 - [ ] Create themed fights (fire, ice, angelic, undead)
@@ -89,3 +89,7 @@ bin/setup
 - [ ] API Development - RESTful API with proper documentation
 - [ ] Background Jobs - Sidekiq for heavy processing (PDF generation, etc.)
 - [ ] File Upload/Management - S3 integration for images/documents
+
+## 📄 Legal Notice
+
+This application is inspired by tabletop role-playing games and is designed for personal use. It is not affiliated with, endorsed by, or connected to any specific TTRPG system or publisher. All character classes, abilities, and game mechanics are original creations for this application.

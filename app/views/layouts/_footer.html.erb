@@ -1,3 +1,13 @@
-  <footer class="bg-gray-800 text-white text-sm p-4 text-center">
-    DND Assistant
-  </footer>
+<footer class="bg-gray-800 text-white text-sm p-4">
+  <div class="max-w-6xl mx-auto flex flex-col md:flex-row justify-between items-center">
+    <div class="mb-2 md:mb-0">
+      <span class="font-semibold">TTRPG Creator</span>
+      <span class="text-gray-400 ml-2">•</span>
+      <span class="text-gray-400 ml-2">Inspired by tabletop RPGs</span>
+    </div>
+    <div class="flex space-x-4 text-gray-300">
+      <%= link_to "Privacy Policy", privacy_path, class: "hover:text-white transition-colors" %>
+      <%= link_to "Terms of Service", terms_path, class: "hover:text-white transition-colors" %>
+    </div>
+  </div>
+</footer>

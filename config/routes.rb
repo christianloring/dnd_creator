@@ -22,6 +22,10 @@ Rails.application.routes.draw do
 
   get "dashboard", to: "home#dashboard", as: :dashboard
 
+  # Legal pages
+  get "privacy", to: "legal#privacy", as: :privacy
+  get "terms", to: "legal#terms", as: :terms
+
   # Health check endpoint
   get "up" => "rails/health#show", as: :rails_health_check
 end

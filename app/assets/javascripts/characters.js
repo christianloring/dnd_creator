@@ -3,19 +3,17 @@ document.addEventListener("DOMContentLoaded", () => {
   const subclassSelect = document.getElementById("subclass_select");
 
   const subclassOptions = {
-    "Barbarian": ["Path of the Berserker", "Path of the Wild Heart"],
-    "Bard": ["College of Dance", "College of Lore", "College of Valor"],
-    "Cleric": ["Life Domain", "Light Domain", "Trickery Domain"],
-    "Druid": ["Circle of the Land", "Circle of the Moon", "Circle of the Sea"],
-    "Fighter": ["Champion", "Battle Master", "Eldritch Knight"],
-    "Monk": ["Warrior of the Hand", "Warrior of the Shadow", "Warrior of the Elements"],
-    "Paladin": ["Oath of Devotion", "Oath of Vengeance", "Oath of the Ancients"],
-    "Ranger": ["Hunter", "Beast Master", "Gloom Stalker"],
-    "Rogue": ["Thief", "Assassin", "Arcane Trickster"],
-    "Sorcerer": ["Draconic Bloodline", "Wild Magic", "Aberrant Mind"],
-    "Warlock": ["The Archfey", "The Fiend", "The Great Old One"],
-    "Wizard": ["Evocation", "Illusion", "Divination"],
-    "Artificer": ["Alchemist", "Artillerist", "Battle Smith"]
+    "Warrior": ["Path of the Berserker", "Path of the Guardian", "Path of the Champion"],
+    "Mage": ["College of Lore", "College of Battle", "College of Elements"],
+    "Guardian": ["Life Domain", "Protection Domain", "Justice Domain"],
+    "Mystic": ["Circle of Nature", "Circle of Spirits", "Circle of Elements"],
+    "Scout": ["Pathfinder", "Beast Master", "Shadow Walker"],
+    "Rogue": ["Thief", "Assassin", "Trickster"],
+    "Sage": ["School of Knowledge", "School of Divination", "School of Illusion"],
+    "Ranger": ["Hunter", "Beast Companion", "Wilderness Guide"],
+    "Warlock": ["Pact of the Fey", "Pact of the Void", "Pact of the Elements"],
+    "Wizard": ["School of Evocation", "School of Abjuration", "School of Conjuration"],
+    "Artificer": ["Alchemist", "Engineer", "Enchanter"]
   };
 
   if (!classSelect || !subclassSelect) return;
