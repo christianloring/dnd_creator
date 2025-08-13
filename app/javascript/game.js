@@ -614,6 +614,9 @@ function initializeGame() {
 
 // Global flag to prevent multiple initializations
 let gameInitialized = false;
+let retryTimeoutId = null;
+let retryCount = 0;
+const maxRetries = 20;
 
 // Wrapper function to prevent multiple initializations
 function attemptGameInitialization() {
@@ -629,6 +632,39 @@ function attemptGameInitialization() {
   }
 }
 
+// Consolidated retry mechanism with timeout management
+function retryInitialize() {
+  if (gameInitialized) {
+    if (retryTimeoutId) {
+      clearTimeout(retryTimeoutId);
+      retryTimeoutId = null;
+    }
+    return;
+  }
+  
+  retryCount++;
+  if (retryCount <= maxRetries) {
+    const root = document.getElementById("game-root");
+    if (!root) {
+      console.log(`Retry attempt ${retryCount} of ${maxRetries}`);
+      retryTimeoutId = setTimeout(retryInitialize, 50);
+    } else {
+      console.log(`game-root found on retry ${retryCount}, initializing...`);
+      attemptGameInitialization();
+      if (retryTimeoutId) {
+        clearTimeout(retryTimeoutId);
+        retryTimeoutId = null;
+      }
+    }
+  } else {
+    console.error("Failed to find game-root element after all retries");
+    if (retryTimeoutId) {
+      clearTimeout(retryTimeoutId);
+      retryTimeoutId = null;
+    }
+  }
+}
+
 // Strategy 1: Immediate attempt
 attemptGameInitialization();
 
@@ -640,37 +676,25 @@ if (document.readyState === 'loading') {
   setTimeout(attemptGameInitialization, 10);
 }
 
-// Strategy 3: Aggressive retry mechanism
-let retryCount = 0;
-const maxRetries = 20; // Increased retries
-
-function retryInitialize() {
-  if (gameInitialized) return;
-  
-  retryCount++;
-  if (retryCount <= maxRetries) {
-    const root = document.getElementById("game-root");
-    if (!root) {
-      console.log(`Retry attempt ${retryCount} of ${maxRetries}`);
-      setTimeout(retryInitialize, 50); // Faster retries: 50ms each
-    } else {
-      console.log(`game-root found on retry ${retryCount}, initializing...`);
-      attemptGameInitialization();
-    }
-  } else {
-    console.error("Failed to find game-root element after all retries");
-  }
+// Strategy 3: Start retry mechanism immediately
+if (retryTimeoutId) {
+  clearTimeout(retryTimeoutId);
 }
-
-// Start retry mechanism immediately
-setTimeout(retryInitialize, 25);
+retryTimeoutId = setTimeout(retryInitialize, 25);
 
 // Strategy 4: Turbo navigation support
 document.addEventListener('turbo:load', () => {
-  console.log("Turbo navigation detected, attempting initialization...");
-  gameInitialized = false; // Reset flag for new page
-  retryCount = 0; // Reset retry count
-  attemptGameInitialization();
-  setTimeout(retryInitialize, 25);
+  const root = document.getElementById("game-root");
+  if (root) {
+    console.log("Turbo navigation detected, attempting initialization...");
+    gameInitialized = false; // Reset flag for new page
+    retryCount = 0; // Reset retry count
+    if (retryTimeoutId) {
+      clearTimeout(retryTimeoutId);
+      retryTimeoutId = null;
+    }
+    attemptGameInitialization();
+    retryTimeoutId = setTimeout(retryInitialize, 25);
+  }
 });
 
