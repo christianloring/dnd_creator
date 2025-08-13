@@ -10,31 +10,31 @@
     <div class="grid gap-6">
       <div>
         <%= f.label :party_level, class: "block text-sm font-medium text-gray-700 mb-1" %>
-        <%= f.number_field :party_level, min: 1, max: 20, class: "input block w-full rounded border-2 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 focus:outline-none" %>
+        <%= f.number_field :party_level, min: 1, max: 20, class: "block w-full rounded border-2 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 focus:outline-none py-2 px-3" %>
       </div>
 
       <div>
         <%= f.label :party_size, class: "block text-sm font-medium text-gray-700 mb-1" %>
-        <%= f.number_field :party_size, min: 1, max: 8, class: "input block w-full rounded border-2 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 focus:outline-none" %>
+        <%= f.number_field :party_size, min: 1, max: 8, class: "block w-full rounded border-2 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 focus:outline-none py-2 px-3" %>
       </div>
 
       <div>
         <%= f.label :shape, "Composition", class: "block text-sm font-medium text-gray-700 mb-1" %>
-        <%= f.select :shape, [["Solo boss","solo_boss"],["Two bosses","two_bosses"],["Boss + minions","boss_minions"],["Swarm","swarm"]], {}, class: "input block w-full rounded border-2 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 focus:outline-none" %>
+        <%= f.select :shape, [["Solo boss","solo_boss"],["Two bosses","two_bosses"],["Boss + minions","boss_minions"],["Swarm","swarm"]], {}, class: "block w-full rounded border-2 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 focus:outline-none py-2 px-3" %>
       </div>
 
       <div>
         <%= f.label :difficulty, class: "block text-sm font-medium text-gray-700 mb-1" %>
-        <%= f.select :difficulty, %w[easy medium hard ], {}, class: "input block w-full rounded border-2 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 focus:outline-none" %>
+        <%= f.select :difficulty, %w[easy medium hard ], {}, class: "block w-full rounded border-2 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 focus:outline-none py-2 px-3" %>
       </div>
 
       <div>
         <%= f.label :theme, "Theme (optional)", class: "block text-sm font-medium text-gray-700 mb-1" %>
-        <%= f.text_field :theme, placeholder: "fire, undead", class: "input block w-full rounded border-2 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 focus:outline-none" %>
+        <%= f.text_field :theme, placeholder: "fire, undead", class: "block w-full rounded border-2 border-gray-300 focus:border-indigo-500 focus:ring-indigo-500 focus:outline-none py-2 px-3" %>
       </div>
 
       <div>
-        <%= f.submit "Build encounter", class: "btn btn-primary w-full py-2 px-4 rounded bg-indigo-600 text-white font-semibold hover:bg-indigo-700 transition" %>
+        <%= f.submit "Build encounter", class: "w-full py-2 px-4 rounded bg-indigo-600 text-white font-semibold hover:bg-indigo-700 transition" %>
       </div>
     </div>
   <% end %>

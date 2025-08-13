@@ -23,7 +23,7 @@
             </div>
             <% if encounter.inputs.present? %>
               <div class="text-sm text-gray-600">
-                <strong>Party:</strong> Level <%= encounter.inputs["party_level"] || "?" %>, 
+                <strong>Party:</strong> Level <%= encounter.inputs["party_level"] || "?" %>,
                 <%= encounter.inputs["party_size"] || "?" %> players
               </div>
               <div class="text-sm text-gray-600">
@@ -35,8 +35,8 @@
           <div class="flex space-x-3 mt-auto">
             <%= link_to 'View', encounter_path(encounter), class: "text-blue-600 hover:underline" %>
             <span>|</span>
-            <%= link_to 'Delete', encounter_path(encounter), 
-                data: { confirm: 'Are you sure?', turbo_method: :delete }, 
+            <%= link_to 'Delete', encounter_path(encounter),
+                data: { confirm: 'Are you sure?', turbo_method: :delete },
                 class: "text-red-600 hover:underline" %>
           </div>
         </div>
