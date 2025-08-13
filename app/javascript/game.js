@@ -657,7 +657,7 @@ function retryInitialize() {
       }
     }
   } else {
-    console.error("Failed to find game-root element after all retries");
+    console.error("Failed to find 'game-root' element after all retries. Please ensure that an element with id 'game-root' exists in the HTML, and that this script is loaded after the DOM is ready. If the problem persists, check for typos in the element ID or script loading order.");
     if (retryTimeoutId) {
       clearTimeout(retryTimeoutId);
       retryTimeoutId = null;
