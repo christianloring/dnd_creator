@@ -7,8 +7,10 @@ function rollExpr(expr){
   return roll(n, d);
 }
 
-const root = document.getElementById("game-root");
-if (root){
+// Function to initialize the game
+function initializeGame() {
+  const root = document.getElementById("game-root");
+  if (root){
   const pc = {
     id:  Number(root.dataset.characterId),
     name:  root.dataset.name,
@@ -607,5 +609,92 @@ if (root){
   // Start with shop available (no enemy yet)
   enableShopButton();
   startEncounter();
+  }
 }
+
+// Global flag to prevent multiple initializations
+let gameInitialized = false;
+let retryTimeoutId = null;
+let retryCount = 0;
+const maxRetries = 20;
+
+// Wrapper function to prevent multiple initializations
+function attemptGameInitialization() {
+  if (gameInitialized) return;
+  
+  const root = document.getElementById("game-root");
+  if (root) {
+    console.log("Game initializing...");
+    gameInitialized = true;
+    initializeGame(); // Call the original initializeGame function
+  } else {
+    console.log("game-root not found, will retry...");
+  }
+}
+
+// Consolidated retry mechanism with timeout management
+function retryInitialize() {
+  if (gameInitialized) {
+    if (retryTimeoutId) {
+      clearTimeout(retryTimeoutId);
+      retryTimeoutId = null;
+    }
+    return;
+  }
+  
+  retryCount++;
+  if (retryCount <= maxRetries) {
+    const root = document.getElementById("game-root");
+    if (!root) {
+      console.log(`Retry attempt ${retryCount} of ${maxRetries}`);
+      retryTimeoutId = setTimeout(retryInitialize, 50);
+    } else {
+      console.log(`game-root found on retry ${retryCount}, initializing...`);
+      attemptGameInitialization();
+      if (retryTimeoutId) {
+        clearTimeout(retryTimeoutId);
+        retryTimeoutId = null;
+      }
+    }
+  } else {
+    console.error("Failed to find 'game-root' element after all retries. Please ensure that an element with id 'game-root' exists in the HTML, and that this script is loaded after the DOM is ready. If the problem persists, check for typos in the element ID or script loading order.");
+    if (retryTimeoutId) {
+      clearTimeout(retryTimeoutId);
+      retryTimeoutId = null;
+    }
+  }
+}
+
+// Strategy 1: Immediate attempt
+attemptGameInitialization();
+
+// Strategy 2: DOMContentLoaded
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', attemptGameInitialization);
+} else {
+  // DOM is already ready, try after a short delay
+  setTimeout(attemptGameInitialization, 10);
+}
+
+// Strategy 3: Start retry mechanism immediately
+if (retryTimeoutId) {
+  clearTimeout(retryTimeoutId);
+}
+retryTimeoutId = setTimeout(retryInitialize, 25);
+
+// Strategy 4: Turbo navigation support
+document.addEventListener('turbo:load', () => {
+  const root = document.getElementById("game-root");
+  if (root) {
+    console.log("Turbo navigation detected, attempting initialization...");
+    gameInitialized = false; // Reset flag for new page
+    retryCount = 0; // Reset retry count
+    if (retryTimeoutId) {
+      clearTimeout(retryTimeoutId);
+      retryTimeoutId = null;
+    }
+    attemptGameInitialization();
+    retryTimeoutId = setTimeout(retryInitialize, 25);
+  }
+});
 
