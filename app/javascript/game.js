@@ -612,37 +612,65 @@ function initializeGame() {
   }
 }
 
-// Try to initialize the game immediately
-initializeGame();
+// Global flag to prevent multiple initializations
+let gameInitialized = false;
 
-// If that fails, try again when DOM is ready
-if (document.readyState === 'loading') {
-  document.addEventListener('DOMContentLoaded', initializeGame);
-} else {
-  // DOM is already ready, try again after a short delay
-  setTimeout(initializeGame, 10);
+// Wrapper function to prevent multiple initializations
+function attemptGameInitialization() {
+  if (gameInitialized) return;
+  
+  const root = document.getElementById("game-root");
+  if (root) {
+    console.log("Game initializing...");
+    gameInitialized = true;
+    initializeGame(); // Call the original initializeGame function
+  } else {
+    console.log("game-root not found, will retry...");
+  }
 }
 
-// Additional retry mechanism - try multiple times with increasing delays
+// Strategy 1: Immediate attempt
+attemptGameInitialization();
+
+// Strategy 2: DOMContentLoaded
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', attemptGameInitialization);
+} else {
+  // DOM is already ready, try after a short delay
+  setTimeout(attemptGameInitialization, 10);
+}
+
+// Strategy 3: Aggressive retry mechanism
 let retryCount = 0;
-const maxRetries = 10;
+const maxRetries = 20; // Increased retries
 
 function retryInitialize() {
+  if (gameInitialized) return;
+  
   retryCount++;
   if (retryCount <= maxRetries) {
-    setTimeout(() => {
-      const root = document.getElementById("game-root");
-      if (!root) {
-        retryInitialize();
-      } else {
-        initializeGame();
-      }
-    }, retryCount * 100); // Increasing delay: 100ms, 200ms, 300ms, etc.
+    const root = document.getElementById("game-root");
+    if (!root) {
+      console.log(`Retry attempt ${retryCount} of ${maxRetries}`);
+      setTimeout(retryInitialize, 50); // Faster retries: 50ms each
+    } else {
+      console.log(`game-root found on retry ${retryCount}, initializing...`);
+      attemptGameInitialization();
+    }
   } else {
     console.error("Failed to find game-root element after all retries");
   }
 }
 
-// Start retry mechanism after initial attempts
-setTimeout(retryInitialize, 50);
+// Start retry mechanism immediately
+setTimeout(retryInitialize, 25);
+
+// Strategy 4: Turbo navigation support
+document.addEventListener('turbo:load', () => {
+  console.log("Turbo navigation detected, attempting initialization...");
+  gameInitialized = false; // Reset flag for new page
+  retryCount = 0; // Reset retry count
+  attemptGameInitialization();
+  setTimeout(retryInitialize, 25);
+});
 
