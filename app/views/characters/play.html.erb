@@ -1,13 +1,14 @@
 <div class="min-h-[70vh] flex flex-col items-center gap-4 pt-6">
   <h1 class="text-2xl font-semibold">Battle: <%= @character.name %></h1>
 
-  <%# derive AC if you do not store it %>
+  <%# Calculate derived stats %>
   <% ac = 10 + ((@character.dexterity.to_i - 10) / 2).floor %>
 
-  <%# simple defaults for dice. later you can compute from items or spells %>
+  <%# Default weapon and spell dice (can be enhanced with items/spells later) %>
   <% weapon_die = "1d8" %>
   <% spell_die  = "2d6" %>
 
+  <%# Game data container - passes character and game profile data to JavaScript %>
   <div id="game-root"
        data-character-id="<%= @character.id %>"
        data-name="<%= @character.name %>"
@@ -27,7 +28,9 @@
        data-spell-die="<%= spell_die %>">
   </div>
 
+    <%# Main game interface %>
   <div class="w-full max-w-3xl bg-white/90 border border-gray-300 rounded-lg shadow p-4 space-y-3">
+    <%# Status display %>
     <div class="flex items-center justify-between text-sm">
       <div>
         <span class="font-semibold">You</span>
@@ -43,13 +46,26 @@
       </div>
     </div>
 
+    <%# Action buttons %>
     <div class="flex gap-2 justify-center">
       <button id="btn-attack" class="px-3 py-1 bg-blue-600 text-white rounded">Attack</button>
       <button id="btn-spell" class="px-3 py-1 bg-indigo-600 text-white rounded">Cast</button>
       <button id="btn-heal" class="px-3 py-1 bg-green-600 text-white rounded">Heal</button>
       <button id="btn-reset" class="px-3 py-1 bg-red-600 text-white rounded">Reset Progress</button>
+
+      <button class="px-3 py-1 bg-amber-600 text-white rounded disabled:opacity-50 disabled:cursor-not-allowed"
+              id="btn-shop"
+              disabled>
+        Shop
+      </button>
+
+      <button id="btn-next" class="px-3 py-1 bg-purple-600 text-white rounded hidden">Next Battle</button>
     </div>
 
+    <%# Shop modal (rendered as partial) %>
+    <%= render "characters/shop_modal" %>
+
+    <%# Combat log %>
     <div id="combat-log" class="h-48 overflow-y-auto bg-gray-50 border border-gray-200 rounded p-2 text-sm"></div>
   </div>
 </div>

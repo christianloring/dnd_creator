@@ -1,0 +1,181 @@
+<!-- Shop Modal - Overlay and backdrop -->
+<div id="shop-modal"
+     class="fixed inset-0 z-50 hidden"
+     role="dialog" aria-modal="true" aria-labelledby="shop-title"
+     data-controller="shop"
+     data-shop-target="modal"
+     data-action="keyup@window->shop#esc">
+  <div class="absolute inset-0 bg-black/40" id="shop-backdrop"></div>
+
+  <!-- Modal content -->
+  <div class="relative mx-auto mt-10 max-w-3xl max-h-[80vh] rounded-lg bg-white shadow-lg flex flex-col">
+    <!-- Modal header -->
+    <div class="flex items-center justify-between p-4 border-b flex-shrink-0">
+      <h2 id="shop-title" class="text-lg font-semibold">Shop</h2>
+      <button class="px-2 py-1" id="shop-close" aria-label="Close">✕</button>
+    </div>
+
+    <!-- Modal body -->
+    <div class="p-4 overflow-y-auto flex-1">
+      <!-- Gold display -->
+      <div class="flex items-center justify-between mb-6">
+        <div class="text-lg font-semibold">Gold: <span id="ui-gold-modal" class="text-amber-600"></span></div>
+      </div>
+
+      <!-- Core Upgrades Section -->
+      <div class="mb-6">
+        <h3 class="text-lg font-semibold mb-3">Core Upgrades</h3>
+        <div class="space-y-2">
+          <!-- Armor -->
+          <div class="bg-gray-50 p-3 rounded">
+            <div class="text-sm text-gray-600 mb-2">Current Armor Bonus: +<span id="ui-gear-armor-modal">0</span></div>
+            <div class="space-y-1">
+              <div class="grid grid-cols-[2fr_1fr_1fr_auto] gap-4 items-center">
+                <span class="font-medium">Traveler's Guard</span>
+                <span class="text-sm text-gray-600">+1 Armor</span>
+                <span class="text-sm font-medium text-right">100G</span>
+                <button class="shop-btn bg-blue-600 text-white px-3 py-1 rounded text-sm" data-buy="armor" data-tier="1">Buy</button>
+              </div>
+              <div class="grid grid-cols-[2fr_1fr_1fr_auto] gap-4 items-center">
+                <span class="font-medium">Knight's Guard</span>
+                <span class="text-sm text-gray-600">+2 Armor</span>
+                <span class="text-sm font-medium text-right">250G</span>
+                <button class="shop-btn bg-blue-600 text-white px-3 py-1 rounded text-sm" data-buy="armor" data-tier="2">Buy</button>
+              </div>
+              <div class="grid grid-cols-[2fr_1fr_1fr_auto] gap-4 items-center">
+                <span class="font-medium">Dragonforged Guard</span>
+                <span class="text-sm text-gray-600">+3 Armor</span>
+                <span class="text-sm font-medium text-right">500G</span>
+                <button class="shop-btn bg-blue-600 text-white px-3 py-1 rounded text-sm" data-buy="armor" data-tier="3">Buy</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Melee Weapon -->
+          <div class="bg-gray-50 p-3 rounded">
+            <div class="text-sm text-gray-600 mb-2">Current Weapon Bonus: +<span id="ui-gear-weapon-modal">0</span></div>
+            <div class="space-y-1">
+              <div class="grid grid-cols-[2fr_1fr_1fr_auto] gap-4 items-center">
+                <span class="font-medium">Emberblade</span>
+                <span class="text-sm text-gray-600">+1 Atk/Dmg</span>
+                <span class="text-sm font-medium text-right">120G</span>
+                <button class="shop-btn bg-red-600 text-white px-3 py-1 rounded text-sm" data-buy="weapon" data-tier="1">Buy</button>
+              </div>
+              <div class="grid grid-cols-[2fr_1fr_1fr_auto] gap-4 items-center">
+                <span class="font-medium">Frostfang Blade</span>
+                <span class="text-sm text-gray-600">+2 Atk/Dmg</span>
+                <span class="text-sm font-medium text-right">300G</span>
+                <button class="shop-btn bg-red-600 text-white px-3 py-1 rounded text-sm" data-buy="weapon" data-tier="2">Buy</button>
+              </div>
+              <div class="grid grid-cols-[2fr_1fr_1fr_auto] gap-4 items-center">
+                <span class="font-medium">Stormbreaker Blade</span>
+                <span class="text-sm text-gray-600">+3 Atk/Dmg</span>
+                <span class="text-sm font-medium text-right">600G</span>
+                <button class="shop-btn bg-red-600 text-white px-3 py-1 rounded text-sm" data-buy="weapon" data-tier="3">Buy</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- Wand/Focus -->
+          <div class="bg-gray-50 p-3 rounded">
+            <div class="text-sm text-gray-600 mb-2">Current Wand Bonus: +<span id="ui-gear-wand-modal">0</span></div>
+            <div class="space-y-1">
+              <div class="grid grid-cols-[2fr_1fr_1fr_auto] gap-4 items-center">
+                <span class="font-medium">Wand of Sparks</span>
+                <span class="text-sm text-gray-600">+1 Spell Atk/Dmg</span>
+                <span class="text-sm font-medium text-right">120G</span>
+                <button class="shop-btn bg-purple-600 text-white px-3 py-1 rounded text-sm" data-buy="wand" data-tier="1">Buy</button>
+              </div>
+              <div class="grid grid-cols-[2fr_1fr_1fr_auto] gap-4 items-center">
+                <span class="font-medium">Wand of Embers</span>
+                <span class="text-sm text-gray-600">+2 Spell Atk/Dmg</span>
+                <span class="text-sm font-medium text-right">300G</span>
+                <button class="shop-btn bg-purple-600 text-white px-3 py-1 rounded text-sm" data-buy="wand" data-tier="2">Buy</button>
+              </div>
+              <div class="grid grid-cols-[2fr_1fr_1fr_auto] gap-4 items-center">
+                <span class="font-medium">Wand of Arcane Fury</span>
+                <span class="text-sm text-gray-600">+3 Spell Atk/Dmg</span>
+                <span class="text-sm font-medium text-right">600G</span>
+                <button class="shop-btn bg-purple-600 text-white px-3 py-1 rounded text-sm" data-buy="wand" data-tier="3">Buy</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <hr class="my-6 border-gray-300">
+
+      <!-- Consumables Section -->
+      <div class="mb-6">
+        <h3 class="text-lg font-semibold mb-3">Consumables</h3>
+        <div class="space-y-2">
+          <div class="bg-green-50 p-3 rounded">
+            <div class="grid grid-cols-[2fr_1fr_1fr_1fr_auto] gap-4 items-center">
+              <span class="font-medium">Health Potion</span>
+              <span class="text-sm text-gray-600">50% heal</span>
+              <span class="text-sm font-medium text-right">50G</span>
+              <span class="text-sm text-center">Owned: <span id="ui-potion-count-modal">0</span></span>
+              <div class="flex gap-2">
+                <button class="shop-btn bg-green-600 text-white px-3 py-1 rounded text-sm" data-buy="potion" data-tier="1">Buy</button>
+                <button id="use-potion-modal" class="bg-green-700 text-white px-3 py-1 rounded text-sm">Use</button>
+              </div>
+            </div>
+          </div>
+          <div class="bg-green-50 p-3 rounded">
+            <div class="grid grid-cols-[2fr_1fr_1fr_1fr_auto] gap-4 items-center">
+              <span class="font-medium">Greater Health Potion</span>
+              <span class="text-sm text-gray-600">Full heal</span>
+              <span class="text-sm font-medium text-right">100G</span>
+              <span class="text-sm text-center">Owned: <span id="ui-gpotion-count-modal">0</span></span>
+              <div class="flex gap-2">
+                <button class="shop-btn bg-green-600 text-white px-3 py-1 rounded text-sm" data-buy="gpotion" data-tier="1">Buy</button>
+                <button id="use-gpotion-modal" class="bg-green-700 text-white px-3 py-1 rounded text-sm">Use</button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <hr class="my-6 border-gray-300">
+
+      <!-- Meta Upgrades Section -->
+      <div>
+        <h3 class="text-lg font-semibold mb-3">Meta Upgrades</h3>
+        <div class="space-y-2">
+          <div class="bg-yellow-50 p-3 rounded">
+            <div class="grid grid-cols-[2fr_1fr_1fr_auto] gap-4 items-center">
+              <span class="font-medium">Battle Training</span>
+              <span class="text-sm text-gray-600">+1 weapon attack</span>
+              <span class="text-sm font-medium text-right">300G</span>
+              <button class="shop-btn bg-yellow-600 text-white px-3 py-1 rounded text-sm" data-buy="meta-battleTraining">Buy</button>
+            </div>
+          </div>
+          <div class="bg-yellow-50 p-3 rounded">
+            <div class="grid grid-cols-[2fr_1fr_1fr_auto] gap-4 items-center">
+              <span class="font-medium">Arcane Study</span>
+              <span class="text-sm text-gray-600">+1 spell atk & dmg</span>
+              <span class="text-sm font-medium text-right">300G</span>
+              <button class="shop-btn bg-yellow-600 text-white px-3 py-1 rounded text-sm" data-buy="meta-arcaneStudy">Buy</button>
+            </div>
+          </div>
+          <div class="bg-yellow-50 p-3 rounded">
+            <div class="grid grid-cols-[2fr_1fr_1fr_auto] gap-4 items-center">
+              <span class="font-medium">Blessed Charm</span>
+              <span class="text-sm text-gray-600">+10 HP at start</span>
+              <span class="text-sm font-medium text-right">250G</span>
+              <button class="shop-btn bg-yellow-600 text-white px-3 py-1 rounded text-sm" data-buy="meta-blessedCharm">Buy</button>
+            </div>
+          </div>
+          <div class="bg-yellow-50 p-3 rounded">
+            <div class="grid grid-cols-[2fr_1fr_1fr_auto] gap-4 items-center">
+              <span class="font-medium">Greedy Pouch</span>
+              <span class="text-sm text-gray-600">+25% gold per win</span>
+              <span class="text-sm font-medium text-right">250G</span>
+              <button class="shop-btn bg-yellow-600 text-white px-3 py-1 rounded text-sm" data-buy="meta-greedyPouch">Buy</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

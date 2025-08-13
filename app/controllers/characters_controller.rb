@@ -35,7 +35,7 @@ class CharactersController < ApplicationController
     redirect_to characters_path, notice: "Character deleted."
   end
 
-    def play
+  def play
     @game_profile = @character.game_profile || @character.create_game_profile!
   end
 
