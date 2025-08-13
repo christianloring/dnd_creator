@@ -17,35 +17,35 @@ RSpec.describe Character, type: :model do
     it { should have_one_attached(:profile_picture) }
   end
 
-    describe 'validations' do
-    it { should validate_inclusion_of(:character_class).in_array(Character::DND_CLASSES) }
+  describe 'validations' do
+    it { should validate_inclusion_of(:character_class).in_array(Character::FANTASY_CLASSES) }
 
     describe 'subclass validation' do
-      context 'when character_class is Barbarian' do
-        subject { build(:character, user: user, character_class: 'Barbarian', subclass: 'Path of the Berserker') }
+      context 'when character_class is Warrior' do
+        subject { build(:character, user: user, character_class: 'Warrior', subclass: 'Path of the Berserker') }
         it { should be_valid }
       end
 
       context 'when subclass is not valid for character_class' do
-        subject { build(:character, user: user, character_class: 'Barbarian', subclass: 'Invalid Subclass') }
+        subject { build(:character, user: user, character_class: 'Warrior', subclass: 'Invalid Subclass') }
         it { should_not be_valid }
       end
 
       context 'when subclass is blank' do
-        subject { build(:character, user: user, character_class: 'Barbarian', subclass: '') }
+        subject { build(:character, user: user, character_class: 'Warrior', subclass: '') }
         it { should be_valid }
       end
     end
   end
 
   describe 'constants' do
-    it 'defines DND_CLASSES' do
-      expect(Character::DND_CLASSES).to include('Barbarian', 'Wizard', 'Fighter')
+    it 'defines FANTASY_CLASSES' do
+      expect(Character::FANTASY_CLASSES).to include('Warrior', 'Wizard', 'Mage')
     end
 
     it 'defines SUBCLASSES_BY_CLASS' do
-      expect(Character::SUBCLASSES_BY_CLASS['Barbarian']).to include('Path of the Berserker')
-      expect(Character::SUBCLASSES_BY_CLASS['Wizard']).to include('Evocation')
+      expect(Character::SUBCLASSES_BY_CLASS['Warrior']).to include('Path of the Berserker')
+      expect(Character::SUBCLASSES_BY_CLASS['Wizard']).to include('School of Evocation')
     end
   end
 
