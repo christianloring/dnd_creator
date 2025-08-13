@@ -29,7 +29,7 @@ class Characters::NotesController < ApplicationController
     if @note.save
       redirect_to character_note_path(@character, @note), notice: "Note created successfully."
     else
-      render :new, status: :unprocessable_entity
+      render :new, status: :unprocessable_content
     end
   end
 
@@ -45,7 +45,7 @@ class Characters::NotesController < ApplicationController
     if @note.update(note_params)
       redirect_to character_note_path(@character, @note), notice: "Note updated successfully."
     else
-      render :edit, status: :unprocessable_entity
+      render :edit, status: :unprocessable_content
     end
   end
 

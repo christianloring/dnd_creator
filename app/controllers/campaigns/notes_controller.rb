@@ -29,7 +29,7 @@ class Campaigns::NotesController < ApplicationController
     if @note.save
       redirect_to campaign_note_path(@campaign, @note), notice: "Note created successfully."
     else
-      render :new, status: :unprocessable_entity
+      render :new, status: :unprocessable_content
     end
   end
 
@@ -45,7 +45,7 @@ class Campaigns::NotesController < ApplicationController
     if @note.update(note_params)
       redirect_to campaign_note_path(@campaign, @note), notice: "Note updated successfully."
     else
-      render :edit, status: :unprocessable_entity
+      render :edit, status: :unprocessable_content
     end
   end
 

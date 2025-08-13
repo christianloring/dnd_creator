@@ -33,7 +33,7 @@ class EncountersController < ApplicationController
 
       redirect_to encounter_path(encounter)
     else
-      render :new, status: :unprocessable_entity
+      render :new, status: :unprocessable_content
     end
   end
 

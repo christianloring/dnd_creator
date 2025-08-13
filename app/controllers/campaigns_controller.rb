@@ -22,7 +22,7 @@ class CampaignsController < ApplicationController
     if @campaign.save
       redirect_to @campaign, notice: "Campaign created successfully."
     else
-      render :new, status: :unprocessable_entity
+      render :new, status: :unprocessable_content
     end
   end
 
@@ -36,7 +36,7 @@ class CampaignsController < ApplicationController
     if @campaign.update(campaign_params)
       redirect_to @campaign, notice: "Campaign updated successfully."
     else
-      render :edit, status: :unprocessable_entity
+      render :edit, status: :unprocessable_content
     end
   end
 

@@ -30,7 +30,7 @@ class NpcsController < ApplicationController
     else
       Rails.logger.error "NPC save failed: #{@npc.errors.full_messages}"
       @categories = Npc::CATEGORIES
-      render :new, status: :unprocessable_entity
+      render :new, status: :unprocessable_content
     end
   end
 
@@ -46,7 +46,7 @@ class NpcsController < ApplicationController
       redirect_to @npc, notice: "NPC updated successfully."
     else
       @categories = Npc::CATEGORIES
-      render :edit, status: :unprocessable_entity
+      render :edit, status: :unprocessable_content
     end
   end
 
