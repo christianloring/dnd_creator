@@ -1,5 +1,11 @@
 <!-- app/views/encounters/show.html.erb -->
 <div class="flex flex-col items-center justify-start min-h-screen bg-gray-50 py-8">
+  <div class="w-full max-w-4xl px-4">
+    <div class="mb-6">
+      <%= link_to "← Back to Encounters", encounters_path, class: "text-blue-600 hover:text-blue-800 underline" %>
+    </div>
+  </div>
+
   <h1 class="text-2xl font-bold mb-4 text-center">Encounter Result</h1>
 
   <p class="mb-2 text-lg text-center">XP budget: <%= @result.total_xp_budget %></p>
@@ -31,5 +37,8 @@
     </table>
   </div>
 
-  <%= link_to "Create another encounter", new_encounter_path, class: "mt-8 px-6 py-2 bg-blue-600 text-white rounded shadow hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 transition" %>
+  <div class="mt-8 flex space-x-4">
+    <%= link_to "Create another encounter", new_encounter_path, class: "px-6 py-2 bg-blue-600 text-white rounded shadow hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 transition" %>
+    <%= link_to "View all encounters", encounters_path, class: "px-6 py-2 bg-gray-600 text-white rounded shadow hover:bg-gray-700 focus:outline-none focus:ring-2 focus:ring-gray-400 focus:ring-opacity-50 transition" %>
+  </div>
 </div>

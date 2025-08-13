@@ -1,31 +1,57 @@
-<!-- app/views/encounters/index.html.erb -->
-<div class="flex flex-col items-center justify-start min-h-screen bg-gray-50 py-8">
-    <h1 class="text-2xl font-bold mb-4 text-center">Encounters</h1>
+<div class="max-w-6xl mx-auto px-4 py-8">
+  <div class="text-center mb-8">
+    <h1 class="text-3xl font-bold mb-4">Encounters</h1>
+    <%= link_to "Create New Encounter", new_encounter_path, class: "bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition" %>
+  </div>
 
-    <div class="overflow-x-auto w-full max-w-3xl mt-6">
-        <table class="min-w-full border border-gray-300 rounded-lg shadow bg-white">
-            <thead>
-                <tr class="bg-gray-100">
-                    <th class="px-4 py-2 border-b border-r border-gray-300">Name</th>
-                    <th class="px-4 py-2 border-b border-r border-gray-300">XP Budget</th>
-                    <th class="px-4 py-2 border-b border-gray-300">Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-                <% @encounters.each do |encounter| %>
-                    <tr class="even:bg-gray-50">
-                        <td class="px-4 py-2 border-b border-r border-gray-200"><%= encounter.name %></td>
-                        <td class="px-4 py-2 border-b border-r border-gray-200"><%= encounter.total_xp_budget %></td>
-                        <td class="px-4 py-2 border-b border-gray-200">
-                            <%= link_to "Show", encounter_path(encounter), class: "text-blue-600 hover:underline mr-2" %>
-                            <%= link_to "Edit", edit_encounter_path(encounter), class: "text-yellow-600 hover:underline mr-2" %>
-                            <%= link_to "Delete", encounter_path(encounter), method: :delete, data: { confirm: "Are you sure?" }, class: "text-red-600 hover:underline" %>
-                        </td>
-                    </tr>
-                <% end %>
-            </tbody>
-        </table>
+  <% if @encounters.any? %>
+    <div class="flex flex-wrap justify-center gap-6">
+      <% @encounters.each do |encounter| %>
+        <div class="bg-white border border-gray-200 rounded-lg shadow p-6 w-full max-w-sm flex flex-col">
+          <div class="flex justify-between items-start mb-4">
+            <h2 class="text-xl font-semibold">
+              <%= encounter.theme.present? ? encounter.theme.titleize : "Encounter #{encounter.id}" %>
+            </h2>
+            <span class="text-sm text-gray-500">
+              <%= encounter.created_at.strftime("%b %d, %Y") %>
+            </span>
+          </div>
+
+          <div class="mb-4">
+            <div class="text-sm text-gray-600 mb-2">
+              <strong>XP Budget:</strong> <%= encounter.total_xp %>
+            </div>
+            <% if encounter.inputs.present? %>
+              <div class="text-sm text-gray-600">
+                <strong>Party:</strong> Level <%= encounter.inputs["party_level"] || "?" %>, 
+                <%= encounter.inputs["party_size"] || "?" %> players
+              </div>
+              <div class="text-sm text-gray-600">
+                <strong>Difficulty:</strong> <%= encounter.inputs["difficulty"]&.titleize || "?" %>
+              </div>
+            <% end %>
+          </div>
+
+          <div class="flex space-x-3 mt-auto">
+            <%= link_to 'View', encounter_path(encounter), class: "text-blue-600 hover:underline" %>
+            <span>|</span>
+            <%= link_to 'Delete', encounter_path(encounter), 
+                data: { confirm: 'Are you sure?', turbo_method: :delete }, 
+                class: "text-red-600 hover:underline" %>
+          </div>
+        </div>
+      <% end %>
     </div>
-
-    <%= link_to "Create new encounter", new_encounter_path, class: "mt-8 px-6 py-2 bg-blue-600 text-white rounded shadow hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50 transition" %>
+  <% else %>
+    <div class="text-center py-12">
+      <div class="text-gray-500 mb-4">
+        <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+        </svg>
+      </div>
+      <h3 class="text-lg font-medium text-gray-900 mb-2">No encounters yet</h3>
+      <p class="text-gray-500 mb-6">Get started by creating your first encounter.</p>
+      <%= link_to "Create New Encounter", new_encounter_path, class: "bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded transition" %>
+    </div>
+  <% end %>
 </div>

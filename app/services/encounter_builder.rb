@@ -48,8 +48,12 @@ class EncounterBuilder
   def pick_boss_minions(req, budget)
     boss_budget = (budget * 0.6).to_i
     boss = @monsters.best_boss_for(boss_budget, theme: req.theme)
+    return [] unless boss
+
     minion_budget = budget - boss.xp_value
     minion = @monsters.good_minion_for(minion_budget, theme: req.theme)
+    return [] unless minion
+
     count = [ (minion_budget / minion.xp_value), 6 ].min
     [ wrap_pick(boss, 1), wrap_pick(minion, count) ]
   end

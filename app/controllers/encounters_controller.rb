@@ -1,4 +1,7 @@
 class EncountersController < ApplicationController
+  before_action :require_authentication
+  before_action :set_encounter, only: [ :show, :destroy ]
+
   def index
     @encounters = Encounter.where(user_id: current_user.id)
   end
@@ -11,26 +14,62 @@ class EncountersController < ApplicationController
     @request = EncounterRequest.new(encounter_params)
     if @request.valid?
       result = EncounterBuilder.new.call(@request)
+
+      # Save encounter to database
+      encounter = Encounter.create!(
+        user: current_user,
+        inputs: @request.attributes,
+        composition: serialize_result(result),
+        total_xp: result.total_xp_budget,
+        theme: @request.theme
+      )
+
+      # Store in session for show action
       session[:last_encounter] = {
         request: @request.attributes,
         result: serialize_result(result)
       }
-      redirect_to encounter_path
+
+      redirect_to encounter_path(encounter)
     else
       render :new, status: :unprocessable_entity
     end
   end
 
   def show
-    data = session[:last_encounter]
-    redirect_to new_encounter_path and return unless data
+    begin
+      # Load from session if available and matches, otherwise from database
+      session_data = session[:last_encounter]
+      if session_data &&
+         session_data[:request] &&
+         session_data[:request]["party_level"] &&
+         @encounter.inputs &&
+         @encounter.inputs["party_level"] &&
+         session_data[:request]["party_level"] == @encounter.inputs["party_level"]
+        data = session_data.with_indifferent_access
+        @request = EncounterRequest.new(data[:request])
+        @result = deserialize_result(data[:result])
+      else
+        # Fallback to database data
+        @request = EncounterRequest.new(@encounter.inputs || {})
+        @result = deserialize_result(@encounter.composition || {})
+      end
+    rescue => e
+      Rails.logger.error "Error in encounters#show: #{e.message}"
+      redirect_to encounters_path, alert: "Unable to load encounter details. Please try again."
+    end
+  end
 
-    data = data.with_indifferent_access  # or deep_symbolize_keys
-    @request = EncounterRequest.new(data[:request])
-    @result  = deserialize_result(data[:result])
+  def destroy
+    @encounter.destroy
+    redirect_to encounters_path, notice: "Encounter deleted successfully."
   end
 
   private
+
+  def set_encounter
+    @encounter = Encounter.find(params[:id])
+  end
 
   def encounter_params
     params.require(:encounter_request).permit(:party_level, :party_size, :shape, :difficulty, :theme)
@@ -45,11 +84,13 @@ class EncountersController < ApplicationController
   end
 
   def deserialize_result(h)
+    return EncounterBuilder::Result.new(total_xp_budget: 0, monsters: [], notes: []) unless h
+
     h = h.with_indifferent_access
     EncounterBuilder::Result.new(
-      total_xp_budget: h[:total_xp_budget],
-      monsters: h[:monsters].map { |m| EncounterBuilder::MonsterPick.new(**m.symbolize_keys) },
-      notes: h[:notes]
+      total_xp_budget: h[:total_xp_budget] || 0,
+      monsters: (h[:monsters] || []).map { |m| EncounterBuilder::MonsterPick.new(**m.symbolize_keys) },
+      notes: h[:notes] || []
     )
   end
 end
