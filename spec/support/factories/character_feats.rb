@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :character_feat do
-    character { nil }
-    feat { nil }
+    association :character
+    association :feat
   end
 end

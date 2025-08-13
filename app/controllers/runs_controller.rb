@@ -6,6 +6,6 @@ class RunsController < ApplicationController
 
     render json: { success: true, run: { id: run.id, score: run.score } }
   rescue ActiveRecord::RecordInvalid => e
-    render json: { success: false, errors: [ e.message ] }, status: :unprocessable_entity
+          render json: { success: false, errors: [ e.message ] }, status: :unprocessable_content
   end
 end
