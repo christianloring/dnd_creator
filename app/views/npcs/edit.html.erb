@@ -1,0 +1,70 @@
+<div class="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+  <div class="flex justify-between items-center mb-8">
+    <h1 class="text-3xl font-bold text-gray-900">Edit NPC: <%= @npc.name %></h1>
+    <div class="flex gap-3">
+      <%= link_to "Back to NPCs", npcs_path, class: "bg-gray-600 text-white px-4 py-2 rounded-lg hover:bg-gray-700 transition-colors" %>
+      <%= link_to "View NPC", npc_path(@npc), class: "bg-green-600 text-white px-4 py-2 rounded-lg hover:bg-green-700 transition-colors" %>
+    </div>
+  </div>
+
+  <%= form_with model: @npc, local: true, class: "space-y-8" do |form| %>
+    <% if @npc.errors.any? %>
+      <div class="bg-red-50 border border-red-200 rounded-lg p-4">
+        <h3 class="text-red-800 font-medium">Please fix the following errors:</h3>
+        <ul class="text-red-700 text-sm mt-2">
+          <% @npc.errors.full_messages.each do |message| %>
+            <li><%= message %></li>
+          <% end %>
+        </ul>
+      </div>
+    <% end %>
+
+    <!-- Basic Information -->
+    <div class="bg-white rounded-lg shadow-md p-6">
+      <h2 class="text-xl font-semibold text-gray-900 mb-4">Basic Information</h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+        <div>
+          <%= form.label :name, class: "block text-sm font-medium text-gray-700 mb-2" %>
+          <%= form.text_field :name, class: "w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" %>
+        </div>
+      </div>
+    </div>
+
+    <!-- NPC Traits -->
+    <div class="bg-white rounded-lg shadow-md p-6">
+      <h2 class="text-xl font-semibold text-gray-900 mb-6">NPC Traits</h2>
+      <p class="text-gray-600 mb-6">Select traits for each category or leave as "None" to skip that trait.</p>
+
+      <%= form.fields_for :data do |data_form| %>
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          <% @categories.each do |category, options| %>
+            <div class="space-y-2">
+              <%= data_form.label category, category.to_s.humanize, class: "block text-sm font-medium text-gray-700" %>
+              <%= data_form.select category,
+                  options_for_select([['None', 'None']] + options.map { |opt| [opt, opt] }, @npc.data&.dig(category.to_s) || @npc.data&.dig(category) || 'None'),
+                  {},
+                  class: "w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" %>
+            </div>
+          <% end %>
+        </div>
+      <% end %>
+    </div>
+
+    <!-- Action Buttons -->
+    <div class="flex justify-end gap-4">
+      <%= link_to "Cancel", npc_path(@npc), class: "bg-gray-600 text-white px-6 py-2 rounded-lg hover:bg-gray-700 transition-colors" %>
+      <%= form.submit "Update NPC", class: "bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors" %>
+    </div>
+  <% end %>
+
+  <!-- Preview Section -->
+  <% if @npc.name.present? || @npc.data&.any? { |k, v| v.present? && v != 'None' && v != "None" } %>
+    <div class="mt-8 bg-gray-50 rounded-lg p-6">
+      <h3 class="text-lg font-semibold text-gray-900 mb-4">Preview</h3>
+      <div class="bg-white rounded-lg p-4">
+        <h4 class="font-medium text-gray-900 mb-2"><%= @npc.name.presence || "Unnamed NPC" %></h4>
+        <p class="text-gray-600 text-sm"><%= @npc.description %></p>
+      </div>
+    </div>
+  <% end %>
+</div>

@@ -20,6 +20,12 @@ Rails.application.routes.draw do
     resources :notes, module: :campaigns
   end
 
+  resources :npcs do
+    collection do
+      get :randomize
+    end
+  end
+
   get "dashboard", to: "home#dashboard", as: :dashboard
 
   # Health check endpoint
