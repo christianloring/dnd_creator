@@ -1,0 +1,19 @@
+<div class="flex flex-col items-center">
+  <h2 class="text-center text-2xl font-semibold mb-6">Note Details</h2>
+
+  <div class="w-full max-w-4xl border border-gray-400 rounded-lg p-6 bg-gray-50">
+    <div class="mb-6">
+      <strong class="block text-gray-700">Title:</strong>
+      <div class="mt-1 text-lg text-gray-900">
+        <%= @note.title %>
+      </div>
+    </div>
+
+    <div>
+      <strong class="block text-gray-700">Body:</strong>
+      <div class="mt-1 whitespace-pre-wrap text-gray-900 min-h-[200px]">
+        <%= @note.body %>
+      </div>
+    </div>
+  </div>
+</div>
