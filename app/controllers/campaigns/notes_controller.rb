@@ -26,6 +26,7 @@ class Campaigns::NotesController < ApplicationController
 
   def create
     @note = @campaign.notes.build(note_params)
+    @note.user = current_user
     if @note.save
       redirect_to campaign_note_path(@campaign, @note), notice: "Note created successfully."
     else

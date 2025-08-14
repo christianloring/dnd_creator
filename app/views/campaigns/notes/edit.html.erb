@@ -1,0 +1,23 @@
+<div class="flex flex-col items-center">
+  <h2 class="text-2xl font-semibold text-center mb-6">Edit Note</h2>
+
+  <div class="w-full max-w-4xl bg-white p-6 rounded-lg shadow border border-gray-300">
+    <%= form_with(model: [@campaign, @note], local: true) do |form| %>
+
+      <div class="mb-6">
+        <%= form.label :title, class: "block text-gray-700 font-medium mb-2 text-center" %>
+        <%= form.text_field :title, required: true, class: "w-full border border-gray-400 px-4 py-2 rounded focus:outline-none focus:ring focus:border-blue-500" %>
+      </div>
+
+      <div class="mb-6">
+        <%= form.label :body, class: "block text-gray-700 font-medium mb-2 text-center" %>
+        <%= form.text_area :body, rows: 10, required: true, class: "w-full border border-gray-400 px-4 py-2 rounded resize-y min-h-[200px] focus:outline-none focus:ring focus:border-blue-500" %>
+      </div>
+
+      <div class="text-center">
+        <%= form.submit "Update Note", class: "bg-blue-600 hover:bg-blue-700 text-white font-semibold py-2 px-6 rounded shadow transition-colors duration-200" %>
+      </div>
+
+    <% end %>
+  </div>
+</div>

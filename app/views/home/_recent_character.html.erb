@@ -7,11 +7,11 @@
           <%= image_tag url_for(recent_character.profile_picture), alt: "#{recent_character.name} profile picture", class: "h-16 w-16 object-cover rounded-full shadow-lg border-2 border-gray-300" %>
         </div>
       <% end %>
-    <p class="text-gray-800 font-bold"><%= recent_character.name %></p>
-    <p class="text-gray-600 text-sm">
+    <p class="text-gray-800 text-center font-bold"><%= recent_character.name %></p>
+    <p class="text-gray-600 text-center text-sm">
       Level <%= recent_character.level %> <%= recent_character.character_class %>
     </p>
-    <%= link_to "View Character", character_path(recent_character), class: "mt-2 inline-block text-blue-600 hover:underline" %>
+    <%= link_to "View Character", character_path(recent_character), class: "mt-2 inline-block text-blue-600 hover:underline text-center w-full" %>
   </div>
 <% else %>
   <div class="bg-white p-6 rounded-lg shadow h-full">
