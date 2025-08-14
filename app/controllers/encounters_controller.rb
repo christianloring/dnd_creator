@@ -4,10 +4,13 @@ class EncountersController < ApplicationController
 
   def index
     @encounters = Encounter.where(user_id: current_user.id)
+    add_breadcrumb "Encounters", encounters_path, active: true
   end
 
   def new
     @request = EncounterRequest.new(party_level: 5, party_size: 4, shape: "boss_minions", difficulty: "medium")
+    add_breadcrumb "Encounters", encounters_path
+    add_breadcrumb "New Encounter", new_encounter_path, active: true
   end
 
   def create
@@ -15,7 +18,6 @@ class EncountersController < ApplicationController
     if @request.valid?
       result = EncounterBuilder.new.call(@request)
 
-      # Save encounter to database
       encounter = Encounter.create!(
         user: current_user,
         inputs: @request.attributes,
@@ -24,7 +26,6 @@ class EncountersController < ApplicationController
         theme: @request.theme
       )
 
-      # Store in session for show action
       session[:last_encounter] = {
         request: @request.attributes,
         result: serialize_result(result)
@@ -32,13 +33,12 @@ class EncountersController < ApplicationController
 
       redirect_to encounter_path(encounter)
     else
-      render :new, status: :unprocessable_entity
+      render :new, status: :unprocessable_content
     end
   end
 
   def show
     begin
-      # Load from session if available and matches, otherwise from database
       session_data = session[:last_encounter]
       if session_data &&
          session_data[:request] &&
@@ -50,10 +50,12 @@ class EncountersController < ApplicationController
         @request = EncounterRequest.new(data[:request])
         @result = deserialize_result(data[:result])
       else
-        # Fallback to database data
         @request = EncounterRequest.new(@encounter.inputs || {})
         @result = deserialize_result(@encounter.composition || {})
       end
+
+      add_breadcrumb "Encounters", encounters_path
+      add_breadcrumb "Encounter Details", encounter_path(@encounter), active: true
     rescue => e
       Rails.logger.error "Error in encounters#show: #{e.message}"
       redirect_to encounters_path, alert: "Unable to load encounter details. Please try again."
