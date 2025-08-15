@@ -1,26 +1,21 @@
 service: dnd_creator
-image: ghcr.io/christianloring/dnd_creator
+image: christianloring/dnd_creator
 
+# Use the IP here so Kamal SSHes to the IP (not the domain)
 servers:
   web:
     hosts:
-      - fablecodex.com
+      - 3.18.214.25
 
 proxy:
   ssl: true
   host: fablecodex.com
-
-# registry:
-#   server: ghcr.io
-#   username: christianloring
-#   password:
-#     - KAMAL_REGISTRY_PASSWORD
+  # lets_encrypt_email: you@example.com
 
 registry:
   server: ghcr.io
   username: christianloring
   password: <%= ENV["KAMAL_REGISTRY_PASSWORD"] %>
-
 
 env:
   secret:
@@ -32,15 +27,18 @@ env:
 
 ssh:
   user: ubuntu
+  # keys:
+  #   - /Users/christianloring/Desktop/website-pair.pem
 
 builder:
   arch: amd64
-  remote: ssh://ubuntu@fablecodex.com
+  remote: ssh://ubuntu@3.18.214.25
 
+# Accessories also SSH to the host — use the IP
 accessories:
   postgres:
     image: postgres:16
-    host: fablecodex.com
+    host: 3.18.214.25
     port: 5432
     env:
       clear:
