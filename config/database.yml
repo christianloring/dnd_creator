@@ -80,19 +80,15 @@ test:
 #
 production:
   primary: &primary_production
-    <<: *default
-    database: dnd_creator_production
-    username: dnd_creator
-    password: <%= ENV["DND_CREATOR_DATABASE_PASSWORD"] %>
+    url: <%= ENV.fetch("DATABASE_URL") %>
+    pool: <%= ENV.fetch("RAILS_MAX_THREADS", 5) %>
   cache:
     <<: *primary_production
     database: dnd_creator_production_cache
-    migrations_paths: db/cache_migrate
   queue:
     <<: *primary_production
     database: dnd_creator_production_queue
-    migrations_paths: db/queue_migrate
   cable:
     <<: *primary_production
     database: dnd_creator_production_cable
-    migrations_paths: db/cable_migrate
+
