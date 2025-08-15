@@ -1,4 +1,4 @@
-service: dnd_creator
+service: dnd-creator
 image: christianloring/dnd_creator
 
 # Use the IP here so Kamal SSHes to the IP (not the domain)
