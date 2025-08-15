@@ -10,6 +10,7 @@
 # Ignore all environment files.
 /.env*
 
+.kamal/secrets
 
 .DS_Store
 

@@ -448,7 +448,7 @@ DEPENDENCIES
   faker
   jbuilder
   jsbundling-rails
-  kamal
+  kamal (~> 2.0)
   pg (~> 1.1)
   propshaft
   pry-rails

@@ -26,7 +26,7 @@ gem "solid_queue"
 gem "solid_cable"
 
 # Optional deployment & performance tools
-gem "kamal", require: false
+gem "kamal", "~> 2.0"
 gem "thruster", require: false
 
 # Required in config/boot.rb
