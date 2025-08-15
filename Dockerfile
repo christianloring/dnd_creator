@@ -58,8 +58,11 @@ COPY . .
 # Precompile bootsnap code for faster boot times
 RUN bundle exec bootsnap precompile app/ lib/
 
-# Precompiling assets for production without requiring secret RAILS_MASTER_KEY
-RUN SECRET_KEY_BASE_DUMMY=1 ./bin/rails assets:precompile
+# Precompile assets at build time; provide dummy DB + secret so Rails can boot
+RUN RAILS_ENV=production \
+    SECRET_KEY_BASE_DUMMY=1 \
+    DATABASE_URL=postgresql://dnd_creator:dummy@localhost:5432/dummy \
+    ./bin/rails assets:precompile
 
 
 RUN rm -rf node_modules
