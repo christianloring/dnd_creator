@@ -80,7 +80,7 @@ test:
 #
 production:
   primary: &primary_production
-    url: <%= ENV.fetch("DATABASE_URL") %>
+    url: <%= ENV["DATABASE_URL"] || "postgresql://dnd_creator:dummy@localhost:5432/dummy" %>
     pool: <%= ENV.fetch("RAILS_MAX_THREADS", 5) %>
   cache:
     <<: *primary_production
