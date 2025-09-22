@@ -3,7 +3,7 @@ source "https://rubygems.org"
 ruby "~> 3.4.5" # Optional: locks to a known-good version
 
 # Rails core
-gem "rails", "~> 8.0.2"
+gem "rails", "~> 8.0.3"
 gem "pg", "~> 1.1"
 gem "puma", ">= 5.0"
 gem "propshaft" # asset pipeline
